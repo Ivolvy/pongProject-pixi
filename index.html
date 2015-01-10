@@ -2,12 +2,34 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>PongProject</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .rendererView {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <script src="lib/pixi.js"></script>
+<script src="js/Ball.js"></script>
+<script src="js/Racket.js"></script>
+<script src="js/Player.js"></script>
+<script src="js/Main.js"></script>
 
 <body>
+
+<script>
+    var main = new Main();
+    main.init();
+</script>
+
 
 </body>
 </html>
