@@ -73,6 +73,19 @@ var Racket  = function(options){
         this.moveDown = false;
     };
 
+    Racket.prototype.getX = function(){
+        return this.racket.position.x;
+    };
+    Racket.prototype.getY = function(){
+        return this.racket.position.y;
+    };
+    Racket.prototype.getWidth = function(){
+        return racketWidth;
+    };
+    Racket.prototype.getHeight = function(){
+        return racketHeight;
+    };
+
 
     Racket.prototype.addToStage = function(stage){
         stage.addChild(this.racket);

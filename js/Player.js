@@ -8,6 +8,7 @@ var Player = function(stage, options){
     this.keyUp = options.keyUp;
     this.keyDown = options.keyDown;
 
+
     Player.prototype.init = function(){
         this.racket = new Racket(options);
         this.racket.addToStage(stage);
