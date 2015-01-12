@@ -53,19 +53,29 @@ var Collision = function(players, balls, radius){
                 this.changeDirection("x");
             }
             //The ball comes from above - Test for the above right corner of the racket
-            else if (this.ball.position.x - radius <= this.racket1.getX() + this.racket1.getWidth() &&
-                this.ball.position.x - radius >= this.racket1.getX() &&
-                this.ball.position.y + radius >= (this.racket1.getY()) &&
-                this.ball.position.y + radius < (this.racket1.getY() + (this.racket1.getHeight() / 10))) {
+            else if (((this.ball.position.x - radius <= this.racket1.getX() + this.racket1.getWidth() &&
+                this.ball.position.x - radius >= this.racket1.getX()) ||
+                (this.ball.position.x <= this.racket1.getX() + this.racket1.getWidth() &&
+                this.ball.position.x >= this.racket1.getX()))
+                &&
+                ((this.ball.position.y + radius >= (this.racket1.getY()) &&
+                this.ball.position.y + radius < (this.racket1.getY() + 2 * (this.racket1.getHeight() / 10))) ||
+                (this.ball.position.y >= (this.racket1.getY()) &&
+                this.ball.position.y < (this.racket1.getY() + 2 * (this.racket1.getHeight() / 10))))) {
                 this.ball.position.x = this.racket1.getX() + this.racket1.getWidth() + radius;
                 this.changeDirection("x");
                 this.changeDirection("y");
             }
             //The ball comes from below - Test for the below right corner of the racket
-            else if (this.ball.position.x - radius <= this.racket1.getX() + this.racket1.getWidth() &&
-                this.ball.position.x - radius >= this.racket1.getX() &&
-                this.ball.position.y - radius <= (this.racket1.getY() + this.racket1.getHeight()) &&
-                this.ball.position.y - radius > (this.racket1.getY() + 9 * (this.racket1.getHeight() / 10))) {
+            else if (((this.ball.position.x - radius <= this.racket1.getX() + this.racket1.getWidth() &&
+                this.ball.position.x - radius >= this.racket1.getX()) ||
+                (this.ball.position.x <= this.racket1.getX() + this.racket1.getWidth() &&
+                this.ball.position.x >= this.racket1.getX()))
+                &&
+                ((this.ball.position.y - radius <= (this.racket1.getY() + this.racket1.getHeight()) &&
+                this.ball.position.y - radius > (this.racket1.getY() + 9 * (this.racket1.getHeight() / 10))) ||
+                (this.ball.position.y <= (this.racket1.getY() + this.racket1.getHeight()) &&
+                this.ball.position.y > (this.racket1.getY() + 9 * (this.racket1.getHeight() / 10))))) {
                 this.ball.position.x = this.racket1.getX() + this.racket1.getWidth() + radius;
                 this.changeDirection("x");
                 this.changeDirection("y");
@@ -99,19 +109,29 @@ var Collision = function(players, balls, radius){
                 this.changeDirection("x");
             }
             //The ball comes from above - Test for the above left corner of the racket
-            else if (this.ball.position.x + radius >= this.racket2.getX() &&
-                this.ball.position.x + radius <= this.racket2.getX() + this.racket2.getWidth() &&
-                this.ball.position.y + radius >= (this.racket2.getY()) &&
-                this.ball.position.y + radius < (this.racket2.getY() + (this.racket2.getHeight() / 10))) {
+            else if (((this.ball.position.x + radius >= this.racket2.getX() &&
+                this.ball.position.x + radius <= this.racket2.getX() + this.racket2.getWidth()) ||
+                (this.ball.position.x >= this.racket2.getX() &&
+                this.ball.position.x <= this.racket2.getX() + this.racket2.getWidth()))
+                &&
+                ((this.ball.position.y + radius >= (this.racket2.getY()) &&
+                this.ball.position.y + radius < (this.racket2.getY() + (this.racket2.getHeight() / 10))) ||
+                (this.ball.position.y >= (this.racket2.getY()) &&
+                this.ball.position.y < (this.racket2.getY() + (this.racket2.getHeight() / 10))))) {
                 this.ball.position.x = this.racket2.getX() - radius;
                 this.changeDirection("x");
                 this.changeDirection("y");
             }
             //The ball comes from below - Test for the below left corner of the racket
-            else if (this.ball.position.x + radius >= this.racket2.getX() &&
-                this.ball.position.x + radius <= this.racket2.getX() + this.racket2.getWidth() &&
-                this.ball.position.y - radius <= (this.racket2.getY() + this.racket2.getHeight()) &&
-                this.ball.position.y - radius > (this.racket2.getY() + 9 * (this.racket2.getHeight() / 10))) {
+            else if (((this.ball.position.x + radius >= this.racket2.getX() &&
+                this.ball.position.x + radius <= this.racket2.getX() + this.racket2.getWidth()) ||
+                (this.ball.position.x >= this.racket2.getX() &&
+                this.ball.position.x <= this.racket2.getX() + this.racket2.getWidth()))
+                &&
+                ((this.ball.position.y - radius <= (this.racket2.getY() + this.racket2.getHeight()) &&
+                this.ball.position.y - radius > (this.racket2.getY() + 9 * (this.racket2.getHeight() / 10))) ||
+                (this.ball.position.y <= (this.racket2.getY() + this.racket2.getHeight()) &&
+                this.ball.position.y > (this.racket2.getY() + 9 * (this.racket2.getHeight() / 10))))) {
                 this.ball.position.x = this.racket2.getX() - radius;
                 this.changeDirection("x");
                 this.changeDirection("y");
