@@ -51,6 +51,9 @@ var Main = function(){
         var ball = new Ball(players);
         ball.addToStage(stage);
 
+
+
+
     };
 
 
