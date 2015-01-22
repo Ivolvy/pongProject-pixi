@@ -52,7 +52,7 @@ Physics(function(world){
     world.add( ball );
 
 
-    //add a circle
+    //add a racket
     var racket = Physics.body('rectangle', {
         x: 50, // x-coordinate
         y: 30, // y-coordinate
@@ -61,7 +61,7 @@ Physics(function(world){
         width: 50,
         height: 100
     });
-    // add the circle to the world
+    // add the racket to the world
     world.add( racket );
 
     //Rude way to add a pixi object on the stage
@@ -73,12 +73,11 @@ Physics(function(world){
     ////////////////
 
 
-    // ensure objects bounce when edge collision is detected
-    world.add( Physics.behavior('body-impulse-response') );
+
     world.add([
         Physics.behavior('constant-acceleration')
         ,Physics.behavior('body-impulse-response')
-        ,Physics.behavior('body-collision-detection')
+        ,Physics.behavior('body-collision-detection') // ensure objects bounce when edge collision is detected
         ,Physics.behavior('sweep-prune')
     ]);
 
@@ -87,6 +86,49 @@ Physics(function(world){
         acc: { x : 0, y: 0.0004 } // this is the default
     });
     world.add( gravity );
+
+    this.keyUp = 90;
+    this.keyDown = 83;
+
+    Physics.body('wheel', 'circle', function( parent ){
+
+        return {
+            // no need for an init
+
+            // spin the wheel at desired speed
+            spin: function( speed ){
+                // the wheels are spinning...
+                this.state.pos.x = 50;
+            }
+        };
+    });
+
+    var myWheel = Physics.body('wheel', {
+        x: 40,
+        y: 340,
+        radius: 60
+    });
+
+    world.add( myWheel );
+
+    window.addEventListener('keydown', function(event) {
+        console.log("keydown");
+        if (event.keyCode == this.keyUp) {
+            console.log("up");
+            racket.x = 500;
+        }
+        else if (event.keyCode == this.keyDown) {
+            console.log("key down pressed");
+            this.racket.startMovingDown();
+        }
+
+         myWheel.spin(5);
+
+
+    });
+
+
+
 
 
     // later... flip the world upside down!
