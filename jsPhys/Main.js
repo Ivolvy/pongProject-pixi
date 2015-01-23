@@ -52,12 +52,6 @@ var Main = function(){
                 ,Physics.behavior('sweep-prune')
             ]);
 
-            // add some gravity
-            var gravity = Physics.behavior('constant-acceleration', {
-                acc: { x : 0, y: 0.0004 } // this is the default
-            });
-           // world.add( gravity );
-
 
             //create the players
             var player1 = new Player(world, {

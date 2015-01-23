@@ -23,11 +23,9 @@ var Player = function(world, options){
 
     Player.prototype.onKeyDown = function(event){
         if(event.keyCode == this.keyUp){
-            console.log("key up pressed");
             this.racket.startMovingUp();
         }
         else if(event.keyCode == this.keyDown){
-            console.log("key down pressed");
             this.racket.startMovingDown();
         }
     };

@@ -64,26 +64,22 @@ var Racket  = function(options){
 
     Racket.prototype.move = function(){
         if(this.moveUp == true){
-            console.log("posY: "+this.racket.getPosY());
             if(this.racket.getPosY() - racketHeight/2 > 0) {
                 if(this.racket.getPosY() - racketHeight/2 - this.velocity < 0) {
                     this.racket.setPosY(racketHeight/2);
                 }
                 else {
-                    console.log("racket mouve up");
                     var temp =  this.racket.getPosY() - this.velocity;
                     this.racket.setPosY(temp);
                 }
             }
         }
         else if(this.moveDown == true){
-            console.log("posY: "+this.racket.getPosY());
             if(this.racket.getPosY() + racketHeight/2 < stageHeight) {
                 if(this.racket.getPosY() + racketHeight/2 + this.velocity > stageHeight){
                     this.racket.setPosY(stageHeight - racketHeight/2);
                 }
                 else {
-                    console.log("racket mouve down");
                     var temp =  this.racket.getPosY() + this.velocity;
                     this.racket.setPosY(temp);
                 }
@@ -92,7 +88,6 @@ var Racket  = function(options){
     };
 
     Racket.prototype.startMovingUp = function(){
-        console.log("moveup");
         this.moveUp = true;
     };
     Racket.prototype.stopMovingUp = function(){
