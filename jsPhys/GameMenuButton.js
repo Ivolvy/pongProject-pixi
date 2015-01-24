@@ -1,10 +1,10 @@
-function GameMenuButton(mtext, topStart, buttonType, buttonTexture) {
+function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture) {
     var that = this;
     
     var stageWidth = window.innerWidth;
     var stageHeight = window.innerHeight;
-    
-    
+
+
     this._onPressCallback = null;
     
     var sprite = new PIXI.Sprite(buttonTexture);
@@ -39,8 +39,8 @@ function GameMenuButton(mtext, topStart, buttonType, buttonTexture) {
     };
 
     this.addToStage = function(stage) {
-        stage.addChild(sprite);
-        stage.addChild(text);
+        myContainer.addChild(sprite);
+        myContainer.addChild(text);
     };
     
     

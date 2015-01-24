@@ -1,49 +1,77 @@
 /**
  * Created by Michael on 09/01/2015.
  */
-function GameMenuManager() {
-
+var GameMenuManager = function(){
+    var that = this;
     var stage;
+    var currentStage;
     var stageWidth = window.innerWidth;
     var stageHeight = window.innerHeight;
-
-
+       
+    var mainMenu;
+    var settings;
+    var renderer;
+    
     GameMenuManager.prototype.init = function(){
         console.log("Main initialize");
-
+        
         stage = new PIXI.Stage(0xFFFFFF);
-
-        var renderer = PIXI.autoDetectRenderer(stageWidth, stageHeight);
+        renderer = PIXI.autoDetectRenderer(stageWidth, stageHeight);
         renderer.view.className = "rendererView";
+        
+        mainMenu = new GameMenu(stage, 150, 400, 'img/button.png');
+        mainMenu.init();
+        
+        mainMenu._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
+            //do something when we touch the buttons
+            that.goToScreen(buttonType);
+        };
 
-
-
-        var mainMenu = new GameMenu(150, 400, 'img/button.png');
-        mainMenu._onAssetsLoadedCallback = function() {
-            //When the assets are loaded, we add the buttons
-
-            mainMenu.addButton("Go on !", stage, 'goOn');
-            mainMenu.addButton("Settings", stage, 'settings');
-            mainMenu.addButton("Help", stage, 'help');
-
-            mainMenu._onDriveOutFinishedCallback = function(pressedButton) {
-                // Do something, the menu is driven out and pressedButton has been pressed!
-                // We simply drive in the menu now...
-
-            };
-
-            document.body.appendChild(renderer.view);
-            requestAnimFrame(animate);
+        settings = new SettingsPage(stage,150, 400, 'img/button.png');
+        settings.init();
+        settings._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
+            //do something when we touch the buttons
+            that.goToScreen(buttonType);
         };
         
-        mainMenu.loadAssets();
+        
+        this.goToScreen("menu");
 
-
+        document.body.appendChild(renderer.view);
+        requestAnimFrame(animate);
+        
         function animate() {
-            mainMenu.animate();
-            
             requestAnimFrame(animate);
             renderer.render(stage);
         }
     };
-}
+
+
+
+    GameMenuManager.prototype.goToScreen = function (screen) {
+        //display the selected screen and hide the others
+        if(screen == "menu") {
+            mainMenu.setVisible(true);
+            settings.setVisible(false);
+        }
+        else if(screen == "goOn") {
+            mainMenu.setVisible(false);
+            settings.setVisible(false);
+            
+            if (that._onDestructCallback != null) {
+                that._onDestructCallback();
+            }
+
+        }
+        else if(screen == "settings"){
+            mainMenu.setVisible(false);
+            settings.setVisible(true);
+        }
+
+    };
+
+    GameMenuManager.prototype.getRenderer = function () {
+        return renderer.view;
+    }
+
+};
