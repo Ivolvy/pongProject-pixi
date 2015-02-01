@@ -35,10 +35,11 @@ var Ball = function(players){
         this.ball = Physics.body('ball', {
             x: 100, // x-coordinate
             y: 100, // y-coordinate
-            vx: 0.5, // velocity in x-direction
-            vy: 0.5, // velocity in y-direction
+            vx: 0.1, // velocity in x-direction - 0.5 for this game
+            vy: 0.1, // velocity in y-direction
             radius: radius,
-            cof: 0
+            cof: 0,
+            mass: 1
         });
 
 
@@ -49,6 +50,10 @@ var Ball = function(players){
     Ball.prototype.move = function(){
 
 
+    };
+    
+    Ball.prototype.getBody = function(){
+        return this.ball;
     };
 
 

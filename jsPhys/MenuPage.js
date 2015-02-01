@@ -1,6 +1,7 @@
 /**
  * Created by Michael on 23/01/2015.
  */
+//this is the page for the menu - link to play/settings and help pages
 var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
@@ -23,7 +24,7 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
     var myContainer;
 
     GameMenu.prototype.init = function(){
-        //stage = new PIXI.Stage(0xFFFFFF);
+        //create a container to enabled the visible option in the upper class
         myContainer = new PIXI.DisplayObjectContainer();
         stage.addChild(myContainer);
         myContainer.visible = false;
@@ -37,21 +38,21 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
         this.loadAssets();
     };
     
-    
+    //we load the different assets
     GameMenu.prototype.loadAssets = function () {
         var assetsToLoad = [buttonTexturePath];
-
         var loader = new PIXI.AssetLoader(assetsToLoad);
 
         loader.onComplete = function () {
             buttonTexture = PIXI.Texture.fromImage(bTexturePath);
             if (that._onAssetsLoadedCallback != null) {
-                that._onAssetsLoadedCallback();
+                that._onAssetsLoadedCallback(); //add the buttons when the assets are loaded
             }
         };
         loader.load();
     };
 
+    //add the buttons via the class GameMenuButton
     GameMenu.prototype.addButton = function (text, stage, buttonType) {
         var newTopStart = topStart;
         that._buttons.forEach(function (element, index) {
@@ -67,6 +68,7 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
         //code when we touch the button
     };
 
+    //when we touch a button on GameMenuButton
     GameMenu.prototype.buttonPressed = function (button) {
         pressedButton = button;
         //we up the event to the GameMenuManager
@@ -74,18 +76,14 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
         this.onDriveOutFinished(pressedButton);
     };
 
+    //go to the upper class to manage the action attributed to the buttons
     GameMenu.prototype.onDriveOutFinished = function (pressedButton) {
         if (that._onDriveOutFinishedCallback != null) {
             that._onDriveOutFinishedCallback(pressedButton, buttonType);
         }
     };
-    
-    GameMenu.prototype.onDriveInFinished = function () {
-        if (that._onDriveInFinishedCallback != null) {
-            that._onDriveInFinishedCallback();
-        }
-    };
 
+    //determine if the buttons of gameMenu are visible or not
     GameMenu.prototype.setVisible = function(visible){
        myContainer.visible = visible;
     };

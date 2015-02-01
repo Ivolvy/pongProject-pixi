@@ -38,6 +38,18 @@ var Player = function(world, options){
         }
     };
 
+    Player.prototype.onKeyUp = function(event){
+        if(event.keyCode == this.keyUp){
+            this.racket.stopMovingUp();
+        }
+        else if(event.keyCode == this.keyDown){
+            this.racket.stopMovingDown();
+        }
+    };
+
+    Player.prototype.getRacketFromPlayer = function(){
+        return this.racket.getBody();
+    };
 
     this.init();
 };

@@ -7,8 +7,8 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
 
     this._onPressCallback = null;
     
+    //create the sprite button and text and place them on the screen
     var sprite = new PIXI.Sprite(buttonTexture);
-
     var text = new PIXI.Text(mtext, { font: "48px Arial", fill: '#FFF' });
 
     sprite.position.x = (stageWidth - sprite.width)/2;
@@ -42,10 +42,8 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
         myContainer.addChild(sprite);
         myContainer.addChild(text);
     };
-    
-    
+
     this.getButtonType = function(){ //which button is clicked
         return buttonType;
     }
-    
 }

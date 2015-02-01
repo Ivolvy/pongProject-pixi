@@ -7,7 +7,9 @@ var Main = function(){
     var players = [];
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
-
+    //used to store racket and the body to collide with (the balls)
+    var boxCollision = [];
+    var collisionDetection
 
     Main.prototype.init = function(){
         console.log("Main initialize");
@@ -17,14 +19,14 @@ var Main = function(){
                 el: 'viewport',
                 width: viewWidth,
                 height: viewHeight,
-                meta: false, // don't display meta data
+                meta: true, // don't display meta data (fps, ipf)
                 styles: {
                     // set colors for the circle bodies
+                    'rectangle' : {
+                        fillStyle: '0x000000'
+                    },
                     'circle' : {
-                        strokeStyle: 'hsla(60, 37%, 17%, 1)',
-                        lineWidth: 1,
-                        fillStyle: 'hsla(60, 37%, 57%, 0.8)',
-                        angleIndicator: 'hsla(60, 37%, 17%, 0.4)'
+                        fillStyle: '0x000000'
                     }
                 }
             });
@@ -48,11 +50,12 @@ var Main = function(){
 
             world.add([
                 Physics.behavior('body-impulse-response')
-                ,Physics.behavior('body-collision-detection') // ensure objects bounce when edge collision is detected
+                //,Physics.behavior('body-collision-detection') // ensure objects bounce when edge collision is detected
                 ,Physics.behavior('sweep-prune')
+               // ,Physics.behavior('newtonian', { strength: 1 }) //used for gravity - 1 is default
             ]);
-
-
+            
+            
             //create the players
             var player1 = new Player(world, {
                 playerPosition:  "left",
@@ -66,14 +69,28 @@ var Main = function(){
                 keyDown: 40
             });
             players.push(player2);
-
+                        
             
             //create a ball
             var ball = new Ball(players);
-            ball.addToStage(world);
+            //ball.addToStage(world); //added on the blackhole gravity
+
+            //add bonus to the stage
+            var bonus = new BonusManager(renderer);
+            bonus.addToStage(world); //can be remove if we add a ball to the blackhole
+
+            //add the previous ball to the newtonian gravity
+            bonus.bonus.addBlackHoleGravityTo(ball.getBody(), world);
 
 
+            //used to manage collisions of the racket with other bodies
+            boxCollision.push(player1.getRacketFromPlayer());
+            boxCollision.push(player2.getRacketFromPlayer());
+            boxCollision.push(ball.getBody());
+            collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
+            world.add(collisionDetection);
             
+
             // subscribe to the ticker
             Physics.util.ticker.on(function( time ){
                 world.step( time );
@@ -83,8 +100,6 @@ var Main = function(){
             });
             // start the ticker
             Physics.util.ticker.start();
-
         });
     };
-    
 };

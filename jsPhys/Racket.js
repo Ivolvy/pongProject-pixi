@@ -113,7 +113,10 @@ var Racket  = function(options){
         return racketHeight;
     };
 
-
+    Racket.prototype.getBody = function(){
+        return this.racket;
+    };
+    
     Racket.prototype.addToStage = function(world){
         // add the racket to the world
         world.add(this.racket);

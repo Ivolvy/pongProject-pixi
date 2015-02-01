@@ -1,9 +1,7 @@
 /**
  * Created by Michael on 24/01/2015.
  */
-/**
- * Created by Michael on 23/01/2015.
- */
+//this is the page for the settings
 var SettingsPage = function(stage, topStart, leftPosition, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
@@ -26,6 +24,7 @@ var SettingsPage = function(stage, topStart, leftPosition, buttonTexturePath, on
     var myContainer;
 
     SettingsPage.prototype.init = function(){
+        //create a container to enabled the visible option in the upper class
         myContainer = new PIXI.DisplayObjectContainer();
         stage.addChild(myContainer);
         myContainer.visible = false;
@@ -37,10 +36,8 @@ var SettingsPage = function(stage, topStart, leftPosition, buttonTexturePath, on
         this.loadAssets();
     };
 
-
     SettingsPage.prototype.loadAssets = function () {
         var assetsToLoad = [buttonTexturePath];
-
         var loader = new PIXI.AssetLoader(assetsToLoad);
 
         loader.onComplete = function () {
@@ -75,18 +72,12 @@ var SettingsPage = function(stage, topStart, leftPosition, buttonTexturePath, on
     };
 
     SettingsPage.prototype.onDriveOutFinished = function (pressedButton) {
-        console.log("settings callback");
         if (that._onDriveOutFinishedCallback != null) {
             that._onDriveOutFinishedCallback(pressedButton, buttonType);
         }
     };
 
-    SettingsPage.prototype.onDriveInFinished = function () {
-        if (that._onDriveInFinishedCallback != null) {
-            that._onDriveInFinishedCallback();
-        }
-    };
-
+    //determine if the buttons of gameMenu are visible or not
     SettingsPage.prototype.setVisible = function(visible){
         myContainer.visible = visible;
     };
