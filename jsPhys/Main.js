@@ -9,7 +9,7 @@ var Main = function(){
     var viewHeight = window.innerHeight;
     //used to store racket and the body to collide with (the balls)
     var boxCollision = [];
-    var collisionDetection
+    var collisionDetection;
 
     Main.prototype.init = function(){
         console.log("Main initialize");
@@ -37,7 +37,7 @@ var Main = function(){
                 // Note: equivalent to just calling world.render() after world.step()
                 world.render();
             });
-
+          
             // bounds of the window
             var viewportBounds = Physics.aabb(-500, 0, viewWidth + 500, viewHeight);
 
@@ -72,15 +72,12 @@ var Main = function(){
                         
             
             //create a ball
-            var ball = new Ball(players);
-            //ball.addToStage(world); //added on the blackhole gravity
+            var ball = new Ball();
+            ball.addToStage(world); //also added on the blackhole gravity
 
             //add bonus to the stage
-            var bonus = new BonusManager(renderer);
-            bonus.addToStage(world); //can be remove if we add a ball to the blackhole
-
-            //add the previous ball to the newtonian gravity
-            bonus.bonus.addBlackHoleGravityTo(ball.getBody(), world);
+            //var bonus = new BonusManager(renderer);
+            new BonusManager(renderer, world, ball, boxCollision);
 
 
             //used to manage collisions of the racket with other bodies
@@ -89,14 +86,13 @@ var Main = function(){
             boxCollision.push(ball.getBody());
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
-            
+           
 
-            // subscribe to the ticker
+            // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
                 world.step( time );
                 player1.racket.move();
                 player2.racket.move();
-                ball.move();
             });
             // start the ticker
             Physics.util.ticker.start();

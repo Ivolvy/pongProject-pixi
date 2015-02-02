@@ -14,7 +14,7 @@ var GameMenuManager = function(){
     var renderer;
     
     GameMenuManager.prototype.init = function(){
-        console.log("Main initialize");
+        console.log("GameMenuManager initialize");
         
         //Create the pixi stage renderer - used to manage screen menu
         stage = new PIXI.Stage(0xFFFFFF);
