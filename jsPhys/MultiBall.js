@@ -59,7 +59,7 @@ var MultiBall = function(boxCollision, world, numberOfBalls){
     //create all the balls for the multiBall
     MultiBall.prototype.createBalls = function(){
         if(count < numberOfBalls) { //create the number of balls passed in the class parameters
-            var ball = new Ball();
+            var ball = new Ball(world);
 
             ball.setPosX(viewWidth / 2);
             ball.setPosY(viewHeight / 2);

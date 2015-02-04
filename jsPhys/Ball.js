@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 09/01/2015.
  */
-var Ball = function(){
+var Ball = function(world){
     console.log("Ball created");
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
@@ -57,36 +57,13 @@ var Ball = function(){
         balls.push(this.ball);
     };
 
-    //add the start position of the ball - used for the launcher of multiBall
-    Ball.prototype.displayStartPosition = function(){
-        Physics.body('ball', 'circle', function( parent ){
-            return {
-                //set the pos to the launcher
-                setPosX: function(x){
-                    this.state.pos.x = x;
-                },
-                setPosY: function(y){
-                    this.state.pos.y = y;
-                }
-            };
-        });
 
-        //add a circle
-        this.ball = Physics.body('ball', {
-            //x and y defined in BonusManager
-            vx: 0,
-            vy: 0,
-            radius: radius,
-            treatment: 'static',
-            mass: 1, //this is default
-            cof: 0,
-            styles: {
-                fillStyle: '0x0000FF'
-            }
-        });
-        
+    Ball.prototype.testRemoveBall = function(number){
+       if(this.ball.state.pos.x < 0 || this.ball.state.pos.x > viewWidth){
+           console.log("ball deleted");
+           world.removeBody(this.ball);
+       }
     };
-    
 
     Ball.prototype.setPosX = function(number){
         this.ball.setPosX(number);
