@@ -30,7 +30,7 @@ var Ball = function(players){
 
         balls.push(this.ball);
 
-        this.collision = new Collision(players, balls, radius);
+        this.collision = new BallManager(players, balls, radius);
         //this.collision.addEventListener("directionChanged", this.changeDirection(this.collision.getDirection()));
 
     };

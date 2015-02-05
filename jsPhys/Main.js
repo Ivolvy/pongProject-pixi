@@ -11,11 +11,13 @@ var Main = function(){
     var boxCollision = [];
     var collisionDetection;
 
+    pauseGame = 0;
+
     Main.prototype.init = function(){
         console.log("Main initialize");
 
         Physics(function(world){
-            var renderer = Physics.renderer('pixi', {
+            renderer = Physics.renderer('pixi', {
                 el: 'viewport',
                 width: viewWidth,
                 height: viewHeight,
@@ -70,14 +72,14 @@ var Main = function(){
             });
             players.push(player2);
 
-            
+
             //create a ball
             var ball = new Ball(world);
             ball.addToStage(world); //also added on the blackhole gravity
 
             //add bonus to the stage
             //var bonus = new BonusManager(renderer);
-            new BonusManager(renderer, world, ball, boxCollision);
+            var bonusManager = new BonusManager(world, ball, boxCollision);
 
 
             //used to manage collisions of the racket with other bodies
@@ -87,17 +89,29 @@ var Main = function(){
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
            
-            var collision = new Collision(boxCollision, world);
+            //crete the ballManager - used to delete balls out of the screen
+            var ballManager = new BallManager(boxCollision, world, pauseGame);
             
+            ballManager._onPauseGame = function() {
+                pauseGame = 1;
+                //test if the game is paused
+                bonusManager.testIfBonusActivated();
+            };
+            ballManager._onUnPauseGame = function() {
+                pauseGame = 0;
+                //test if the game is paused
+                bonusManager.testIfBonusActivated();
+            };
+
 
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
-                world.step( time );
-                player1.racket.move();
-                player2.racket.move();
+                    world.step(time);
+                    player1.racket.move();
+                    player2.racket.move();
 
-                //test if the balls go out of the screen
-                collision.testBallOutOfScreen();
+                    //test if the balls go out of the screen
+                    ballManager.testBallOutOfScreen();
             });
             // start the ticker
             Physics.util.ticker.start();

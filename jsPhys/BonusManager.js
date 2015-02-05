@@ -4,7 +4,7 @@
 
 //The bonus class manages all the bonus (black hole, multiBall, etc...)
 
-var BonusManager = function(renderer, world, ball, boxCollision){
+var BonusManager = function(world, ball, boxCollision){
 
     var that = this;
     that.bonus = null;
@@ -18,6 +18,10 @@ var BonusManager = function(renderer, world, ball, boxCollision){
 
     var bonusBody;
     
+    var timerBetween;
+    var timerBonus;
+    var timerDelete;
+
     BonusManager.prototype.init = function(){
         that.timeBetweenBonus();
     };
@@ -27,7 +31,7 @@ var BonusManager = function(renderer, world, ball, boxCollision){
         var blankTime = Math.floor((Math.random() * (timeMaxCreate - timeMinCreate)) + timeMinCreate); //time before launch a bonus (in seconds)
         console.log("blank time: "+blankTime);
         //setInterval(this.randomBonus, startBonusAtTime);
-        setTimeout(that.timerBonus, blankTime);
+        timerBetween = setTimeout(that.timerBonus, blankTime);
     };
     
     //timer to create a bonus
@@ -35,7 +39,7 @@ var BonusManager = function(renderer, world, ball, boxCollision){
         var startBonusAtTime = Math.floor((Math.random() * (timeMaxCreate - timeMinCreate)) + timeMinCreate); //time before launch a bonus (in seconds)
         console.log("time before bonus: "+startBonusAtTime);
         //setInterval(this.randomBonus, startBonusAtTime);
-        setTimeout(that.randomBonus, startBonusAtTime);
+        timerBonus = setTimeout(that.randomBonus, startBonusAtTime);
     };
     
     //select a bonus randomly
@@ -93,18 +97,32 @@ var BonusManager = function(renderer, world, ball, boxCollision){
     BonusManager.prototype.timeBeforeDeleteBonus = function(){
         var deleteBonusAtTime = Math.floor((Math.random() * (timeMaxDelete - timeMinDelete)) + timeMinDelete);
         console.log("time before remove bonus: "+deleteBonusAtTime);
-        setTimeout(that.deleteBonus, deleteBonusAtTime);
+        timerDelete = setTimeout(that.deleteBonus, deleteBonusAtTime);
     };
     
     //delete the current bonus
     BonusManager.prototype.deleteBonus = function(){        
         that.bonus.removeBonus(world);
-        that.timeBetweenBonus();
+        if(pauseGame != 1) {
+            that.timeBetweenBonus();
+        }
     };
     
+    //remove bonus generation if the game is paused
+    BonusManager.prototype.removeBonusGenerator = function(){
+        clearTimeout(timerBetween);
+        clearTimeout(timerBonus);
+        clearTimeout(timerDelete);
+    };
     
-    BonusManager.prototype.addToStage = function(world){
-        that.bonus.addToStage(world);
+    //test if the game is paused - used to stop bonus generation
+    BonusManager.prototype.testIfBonusActivated = function(){
+        if(pauseGame == 1){
+            that.removeBonusGenerator();
+        }
+        else{
+            that.timeBetweenBonus();
+        }
     };
 
     this.init();

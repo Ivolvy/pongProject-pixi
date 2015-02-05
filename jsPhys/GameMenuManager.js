@@ -62,7 +62,7 @@ var GameMenuManager = function(){
 
             //we up the event to the upper class
             if (that._onDestructCallback != null) {
-                that._onDestructCallback();
+                that._onDestructCallback(stage, renderer);
             }
         }
         else if(screen == "settings"){

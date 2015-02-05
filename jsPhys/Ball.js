@@ -44,15 +44,14 @@ var Ball = function(world){
         
         //add a circle
         this.ball = Physics.body('ball', {
-            x: 100, // x-coordinate
-            y: 100, // y-coordinate
+            x: (viewWidth)/2 - radius, // x-coordinate
+            y: (viewHeight)/2 -radius, // y-coordinate
             vx: 0.5, // velocity in x-direction - 0.5 for this game
             vy: 0.5, // velocity in y-direction
             radius: radius,
             cof: 0,
             mass: 1
         });
-
 
         balls.push(this.ball);
     };
