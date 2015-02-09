@@ -71,8 +71,8 @@ var Main = function(){
                 keyDown: 40
             });
             players.push(player2);
-
-
+            
+            
             //create a ball
             var ball = new Ball(world);
             ball.addToStage(world); //also added on the blackhole gravity
@@ -112,6 +112,9 @@ var Main = function(){
 
                     //test if the balls go out of the screen
                     ballManager.testBallOutOfScreen();
+                    ballManager._onRestartGame = function() {
+                        bonusManager.deleteBonus();
+                    };
             });
             // start the ticker
             Physics.util.ticker.start();

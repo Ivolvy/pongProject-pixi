@@ -17,8 +17,11 @@ var BallManager = function(boxCollision, world, pauseGame) {
     
     BallManager.prototype.testBallOutOfScreen = function(){
         if(boxCollision.length == 2 && pauseGame != 1){ //pauseGame is recovered with the parameter in new BallManager
-            console.log("biiiiiche");
             this.restartGame();
+            //we up the event to the upper class
+            if (that._onRestartGame != null) {
+                that._onRestartGame();
+            }
         }
         
         for(var i=0; i<boxCollision.length;i++){
@@ -39,6 +42,8 @@ var BallManager = function(boxCollision, world, pauseGame) {
         that.onPauseGame();
         //launch a new ball
         countText = new PIXI.Text(" "+i, {font:"50px Arial", fill:"red"});
+        countText.x = (viewWidth - countText.width)/2;
+        countText.y = (viewHeight - countText.height)/2;
 
         counterInterval = setInterval(this.setText, 1000);
     };

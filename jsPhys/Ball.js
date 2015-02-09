@@ -85,7 +85,6 @@ var Ball = function(world){
     Ball.prototype.addToStage = function(world){
         // add the ball to the world
         world.add(this.ball);
-
     };
 
     this.init();

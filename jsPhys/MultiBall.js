@@ -77,6 +77,11 @@ var MultiBall = function(boxCollision, world, numberOfBalls){
             clearInterval(timeBetweenBall); //stop the balls creation
             count = 0; //resets the counter
             world.removeBody(that.launcher); //remove the launcher when all the balls are ejected (on the stage)
+
+            //we up the event to the upper class
+            if (that._onCreationComplete != null) {
+                that._onCreationComplete();
+            }
         }
     };    
     

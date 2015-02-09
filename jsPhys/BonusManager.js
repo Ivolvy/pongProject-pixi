@@ -45,17 +45,19 @@ var BonusManager = function(world, ball, boxCollision){
     //select a bonus randomly
     BonusManager.prototype.randomBonus = function(){
         console.log("timer passed");
-        var selectedBonus = Math.floor((Math.random() * 1) + 1); //between 1 and 3
+        var selectedBonus = Math.floor((Math.random() * 3) + 1); //between 1 and 3
         console.log("bonus selected: "+selectedBonus);
         
-        if(selectedBonus == 2){ //blackHole
+        if(selectedBonus == 1){ //blackHole
             that.blackHoleBonus();
             that.positionBonus();
         }
-        else if(selectedBonus == 1){ //multiBall
+        else if(selectedBonus == 2){ //multiBall
             that.multiBallBonus();
         }
-        else if(selectedBonus == 3){}
+        else if(selectedBonus == 3){
+            that.wallBonus();
+        }
     };
     
     //position the bonus to the stage
@@ -80,14 +82,33 @@ var BonusManager = function(world, ball, boxCollision){
     //the multiBall bonus
     BonusManager.prototype.multiBallBonus = function(){
         that.bonus = new MultiBall(boxCollision, world, 6); //the third argument is the number of balls
+        
+        that.bonus._onCreationComplete = function() {
+            //do something when all the balls are created
+            that.timeBetweenBonus();
+        };
+    };
+
+    //the wall bonus
+    BonusManager.prototype.wallBonus = function(){
+        //add some walls on the stage
+        that.bonus = new WallManager(boxCollision, world);
+        
+        //delete the bonus after a specified time
+        that.timeBeforeDeleteBonus();
     };
     
     
     //the black hole bonus
     BonusManager.prototype.blackHoleBonus = function(){
         that.bonus = new BlackHole();
-        //add the previous ball to the newtonian gravity
-        that.bonus.addBlackHoleGravityTo(ball.getBody(), world);
+
+        for(var i = 0; i < boxCollision.length; i++){
+            if(boxCollision[i].name == 'ball'){
+                //add the previous ball to the newtonian gravity
+                that.bonus.addBlackHoleGravityTo(boxCollision[i], world);
+            }
+        }
 
         //delete the bonus after a specified time
         that.timeBeforeDeleteBonus();
@@ -101,8 +122,10 @@ var BonusManager = function(world, ball, boxCollision){
     };
     
     //delete the current bonus
-    BonusManager.prototype.deleteBonus = function(){        
-        that.bonus.removeBonus(world);
+    BonusManager.prototype.deleteBonus = function(){      
+        if(that.bonus) {
+            that.bonus.removeBonus(world); // utiliser une fonction dans l'objet lui-même pour le supprimer
+        }
         if(pauseGame != 1) {
             that.timeBetweenBonus();
         }
