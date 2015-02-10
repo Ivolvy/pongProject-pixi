@@ -2,7 +2,7 @@
  * Created by Michael on 24/01/2015.
  */
 //this is the page for the settings
-var SettingsPage = function(stage, topStart, leftPosition, buttonTexturePath, onAssetsLoadedCallback) {
+var SettingsPage = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
     var stageWidth = window.innerWidth;

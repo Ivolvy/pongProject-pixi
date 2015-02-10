@@ -2,7 +2,7 @@
  * Created by Michael on 23/01/2015.
  */
 //this is the page for the menu - link to play/settings and help pages
-var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAssetsLoadedCallback) {
+var GameMenu = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
     var stageWidth = window.innerWidth;

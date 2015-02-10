@@ -13,8 +13,10 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
 
  //////////////////////////////////////////
 
-    var assetsToLoaderHv = ["fonts/handvetica/handvetica.fnt"];
-    var assetsToLoaderDg = ["fonts/digiffiti/digiffiti.fnt"];
+    /**Establishes the fonts**/
+    
+    var assetsToLoaderHv = ["fonts/Intro/Intro.fnt"];
+    var assetsToLoaderDg = ["fonts/handvetica/handvetica.fnt"];
     
     // create a new loader
     var loaderHv = new PIXI.AssetLoader(assetsToLoaderHv);
@@ -31,29 +33,33 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
     loaderHv.load();
     loaderDg.load();
 
+    //set the position to the current button
+    sprite.position.x = (stageWidth - sprite.width)/2;
+    sprite.position.y = stageHeight + 10;
+    sprite.interactive = true;
+    
+    
     function onAssetsLoadedHv(){
-        bitmapFontTextHv = new PIXI.BitmapText("POONG GAME", {font: "95px handvetica", align: "right"});
+        bitmapFontTextHv = new PIXI.BitmapText("POONG GAME", {font: "95px Intro", align: "right"});
 
         bitmapFontTextHv.position.x = (stageWidth - bitmapFontTextHv.width)/2;
-        bitmapFontTextHv.position.y = 20;
+        bitmapFontTextHv.position.y = - bitmapFontTextHv.height - 10;
         myContainer.addChild(bitmapFontTextHv);
+
     }
 
     function onAssetsLoadedDg(){
-        bitmapFontTextDv = new PIXI.BitmapText(mtext, {font: "95px digiffiti", align: "right"});
+        bitmapFontTextDv = new PIXI.BitmapText(mtext, {font: "95px handvetica", align: "right"});
 
         bitmapFontTextDv.position.x = (stageWidth - bitmapFontTextDv.width)/2;
-        bitmapFontTextDv.position.y = topStart + (sprite.height - bitmapFontTextDv.height)/2;
+        bitmapFontTextDv.position.y = stageHeight + 20;
         myContainer.addChild(bitmapFontTextDv);
-    }
-    
-    ////////////////////////////
-    
-    
-    sprite.position.x = (stageWidth - sprite.width)/2;
-    sprite.position.y = topStart;
-    sprite.interactive = true;
 
+        //add the animations
+        that.addAnimation();
+    }
+
+    ////////////////////////////
 
 
     sprite.click = function(mouseData) { //when the user click with the mouse
@@ -68,8 +74,23 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
         }
     };
 
-    this.animate = function() {
-
+    //add animations to the buttons
+    this.addAnimation = function() {
+        TweenLite.to(bitmapFontTextHv, 0.5, {
+                y : stageHeight/10,
+                ease : Elastic.easeOut,
+                delay : 0.5}
+        );
+        TweenLite.to(bitmapFontTextDv, 0.5, {
+                y : topStart + (sprite.height - bitmapFontTextDv.height)/2 - 10,
+                ease : Elastic.easeOut,
+                delay : 1}
+        );
+        TweenLite.to(sprite, 0.7, {
+                y : topStart,
+                ease : Elastic.easeOut,
+                delay : 1}
+        );
     };
 
     this.getHeight = function() {

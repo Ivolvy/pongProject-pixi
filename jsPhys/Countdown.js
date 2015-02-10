@@ -12,6 +12,7 @@ var Countdown = function(renderer) {
     
     
     /*PIXI.DisplayObjectContainer.call(this);
+    //following use a spritesheet
     this.three = PIXI.Sprite.fromFrame("3Get.png");
     this.two = PIXI.Sprite.fromFrame("2tricksy.png");
     this.one = PIXI.Sprite.fromFrame("1pixie.png");*/
@@ -72,8 +73,7 @@ var Countdown = function(renderer) {
 
         TweenLite.to(this.three, 1 * time2, {
             alpha : 1,
-            onComplete : function()
-            {console.log("pass 3");
+            onComplete : function() {
                 m_cCountdown.onThreeShown();
             }
         });
@@ -107,8 +107,7 @@ var Countdown = function(renderer) {
 
         TweenLite.to(that.two, 1 * time2, {
             alpha : 1,
-            onComplete : function()
-            {     console.log("2");
+            onComplete : function() {
                 TweenLite.to(that.two, 1 * time, {
                     alpha : 0,
                     delay : delay

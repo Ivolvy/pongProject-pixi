@@ -27,7 +27,7 @@ var GameMenuManager = function(){
         stage.addChild(backgroundSprite);
 
         //the screen for the game menu
-        mainMenu = new GameMenu(stage, 150, 400, 'img/button.png');
+        mainMenu = new GameMenu(stage, stageHeight/10*3, 'img/menuButton.png');
         mainMenu.init();
         
         mainMenu._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
@@ -36,7 +36,7 @@ var GameMenuManager = function(){
         };
 
         //the screen for the different settings
-        settings = new SettingsPage(stage,150, 400, 'img/button.png');
+        settings = new SettingsPage(stage, stageHeight/10*3, 'img/menuButton.png');
         settings.init();
         settings._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
             //do something when we touch the buttons
