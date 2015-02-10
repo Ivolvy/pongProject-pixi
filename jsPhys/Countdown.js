@@ -5,12 +5,9 @@
 var m_cCountdown = false;
 
 var Countdown = function(renderer) {
-
-
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
-    
-    
+
     /*PIXI.DisplayObjectContainer.call(this);
     //following use a spritesheet
     this.three = PIXI.Sprite.fromFrame("3Get.png");
@@ -27,7 +24,7 @@ var Countdown = function(renderer) {
     this.one = new PIXI.Sprite(this.one1);
     
 
-    //define the position of the images
+    //define the position of the three images
     this.three.position.x = (viewWidth)/2 ;
     this.three.position.y = (viewHeight)/2 ;
     
@@ -37,7 +34,7 @@ var Countdown = function(renderer) {
     this.one.position.x = (viewWidth)/2 ;
     this.one.position.y = (viewHeight)/2 ;
     
-    
+    //set the anchor to the center of each images
     this.three.anchor.x = this.three.anchor.y = 0.5;
     this.two.anchor.x = this.two.anchor.y = 0.5;
     this.one.anchor.x = this.one.anchor.y = 0.5;
@@ -46,6 +43,7 @@ var Countdown = function(renderer) {
     this.two.alpha = 0;
     this.one.alpha = 0;
 
+    //add the three images to the stage
     renderer.stage.addChild(this.three);
     renderer.stage.addChild(this.two);
     renderer.stage.addChild(this.one);
@@ -55,8 +53,7 @@ var Countdown = function(renderer) {
     this.one.alpha = 0;
 
     m_cCountdown = this;
-
-
+    
     Countdown.prototype.startCountDown = function(onComplete) {
         this.visible = true;
         this.onComplete = onComplete;
@@ -164,6 +161,4 @@ var Countdown = function(renderer) {
             delay : delay
         });
     };
-    
-
 };

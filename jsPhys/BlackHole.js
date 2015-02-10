@@ -41,7 +41,6 @@ var BlackHole = function(renderer){
                 fillStyle: '0xFF0000'
             }
         });
-        
         //used to define an image to the selected body
         this.blackHole.view = renderer.createDisplay('sprite', {
             texture: 'img/blackhole.png',
@@ -61,7 +60,7 @@ var BlackHole = function(renderer){
 
 
     BlackHole.prototype.getHeight = function(){
-        return radius;
+        return  this.blackHole.view.height;
     };
     
     BlackHole.prototype.getBody = function(){

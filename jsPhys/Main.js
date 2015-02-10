@@ -81,24 +81,25 @@ var Main = function(){
             
             
             //create a ball
-            var ball = new Ball(world);
-            ball.addToStage(world); //also added on the blackhole gravity
+           // var ball = new Ball(world);
+           // ball.addToStage(world); //also added on the blackhole gravity
 
             //add bonus to the stage
             //var bonus = new BonusManager(renderer);
-            var bonusManager = new BonusManager(world, ball, boxCollision, renderer);
+            var bonusManager = new BonusManager(world, boxCollision, renderer);
 
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());
             boxCollision.push(player2.getRacketFromPlayer());
-            boxCollision.push(ball.getBody());
+           // boxCollision.push(ball.getBody());
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
            
             //crete the ballManager - used to delete balls out of the screen
             var ballManager = new BallManager(boxCollision, world, pauseGame);
-            
+            //ballManager.restartGame();
+
             ballManager._onPauseGame = function() {
                 pauseGame = 1;
                 //test if the game is paused
@@ -111,14 +112,13 @@ var Main = function(){
             };
 
 
-
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
                     world.step(time);
                     player1.racket.move();
                     player2.racket.move();
 
-                    //test if the balls go out of the screen
+                    //test if the balls go out of the screen - Create the first ball when the game is initialized
                     ballManager.testBallOutOfScreen();
                     ballManager._onRestartGame = function() {
                         bonusManager.deleteBonus();

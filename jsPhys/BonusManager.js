@@ -4,7 +4,7 @@
 
 //The bonus class manages all the bonus (black hole, multiBall, etc...)
 
-var BonusManager = function(world, ball, boxCollision, renderer){
+var BonusManager = function(world, boxCollision, renderer){
 
     var that = this;
     that.bonus = null;
@@ -133,6 +133,7 @@ var BonusManager = function(world, ball, boxCollision, renderer){
     
     //remove bonus generation if the game is paused
     BonusManager.prototype.removeBonusGenerator = function(){
+        console.log("REMOVE BONUS");
         clearTimeout(timerBetween);
         clearTimeout(timerBonus);
         clearTimeout(timerDelete);
