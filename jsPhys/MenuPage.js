@@ -31,9 +31,9 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
         
         this._onAssetsLoadedCallback = function () {
             //When the assets are loaded, we add the buttons
-            this.addButton("Go on !", stage, 'goOn');
-            this.addButton("Settings", stage, 'settings');
-            this.addButton("Help", stage, 'help');
+            this.addButton("GO ON !", stage, 'goOn');
+            this.addButton("SETTINGS", stage, 'settings');
+            this.addButton("HELP", stage, 'help');
         };
         this.loadAssets();
     };
@@ -58,7 +58,7 @@ var GameMenu = function(stage, topStart, leftPosition, buttonTexturePath, onAsse
         that._buttons.forEach(function (element, index) {
             newTopStart += element.getHeight();
         });
-        var newMenuButton = new GameMenuButton(myContainer, text, newTopStart, buttonType, buttonTexture);
+        var newMenuButton = new GameMenuButton(myContainer, text, newTopStart, buttonType, buttonTexture, stage);
         newMenuButton.addToStage(stage);
         newMenuButton._onPressCallback = that.buttonPressed.bind(that);
         that._buttons.push(newMenuButton);

@@ -10,10 +10,14 @@ var BallManager = function(boxCollision, world, pauseGame) {
     var viewHeight = window.innerHeight;
 
     var i = 5; //the restart game timer counter
-    var countText; //the text display by Pixi
+    var bitmapFontTextHv; //the text display by Pixi
     var counterInterval; //the timer that launch the counter
+
+    var count;
     
-    BallManager.prototype.init = function(){};
+    BallManager.prototype.init = function(){
+         count = new Countdown(renderer);
+    };
     
     BallManager.prototype.testBallOutOfScreen = function(){
         if(boxCollision.length == 2 && pauseGame != 1){ //pauseGame is recovered with the parameter in new BallManager
@@ -41,30 +45,13 @@ var BallManager = function(boxCollision, world, pauseGame) {
        console.log("Ready to restart game");
         that.onPauseGame();
         //launch a new ball
-        countText = new PIXI.Text(" "+i, {font:"50px Arial", fill:"red"});
-        countText.x = (viewWidth - countText.width)/2;
-        countText.y = (viewHeight - countText.height)/2;
+        //launch the animation of the countdown
+        count.startCountDown();
 
-        counterInterval = setInterval(this.setText, 1000);
-    };
-    
-    //display counter text to re-launch a ball
-    BallManager.prototype.setText = function(){
-        if(i > 0) {
-            countText.setText(" "+i);
-            renderer.stage.addChild(countText);
-        }
-        else if(i == 0){
-            countText.setText("Go!");
-            renderer.stage.addChild(countText);
-        }
-        else if(i<0) {
-            clearInterval(counterInterval);
-            renderer.stage.removeChild(countText);
+        //the callback from Countdown
+        count._onAnimationEnded = function() {
             that.launchBall();
-            i = 5;
         }
-        i--;
     };
     
     //launch a new ball
@@ -92,4 +79,6 @@ var BallManager = function(boxCollision, world, pauseGame) {
         }
         pauseGame = 0;
     };
+
+    this.init();
 };

@@ -20,7 +20,12 @@ var GameMenuManager = function(){
         stage = new PIXI.Stage(0xFFFFFF);
         renderer = PIXI.autoDetectRenderer(stageWidth, stageHeight);
         renderer.view.className = "rendererView";
-        
+
+        //display the background image
+        var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
+        var backgroundSprite = new PIXI.Sprite(backgroundTexture);
+        stage.addChild(backgroundSprite);
+
         //the screen for the game menu
         mainMenu = new GameMenu(stage, 150, 400, 'img/button.png');
         mainMenu.init();

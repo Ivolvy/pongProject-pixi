@@ -39,7 +39,14 @@ var Main = function(){
                 // Note: equivalent to just calling world.render() after world.step()
                 world.render();
             });
-          
+
+
+            //display the background image
+            var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
+            var backgroundSprite = new PIXI.Sprite(backgroundTexture);
+            renderer.stage.addChild(backgroundSprite);
+            
+            
             // bounds of the window
             var viewportBounds = Physics.aabb(-500, 0, viewWidth + 500, viewHeight);
 
@@ -79,7 +86,7 @@ var Main = function(){
 
             //add bonus to the stage
             //var bonus = new BonusManager(renderer);
-            var bonusManager = new BonusManager(world, ball, boxCollision);
+            var bonusManager = new BonusManager(world, ball, boxCollision, renderer);
 
 
             //used to manage collisions of the racket with other bodies
@@ -102,6 +109,7 @@ var Main = function(){
                 //test if the game is paused
                 bonusManager.testIfBonusActivated();
             };
+
 
 
             // subscribe to the ticker - so the game is looping

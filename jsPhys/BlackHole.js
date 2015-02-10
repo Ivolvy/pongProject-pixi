@@ -40,17 +40,21 @@ var BlackHole = function(renderer){
             styles: {
                 fillStyle: '0xFF0000'
             }
-            
         });
+        
         //used to define an image to the selected body
-       /* this.blackHole.view = renderer.createDisplay('sprite', {
-            texture: 'img/baal1.png',
+        this.blackHole.view = renderer.createDisplay('sprite', {
+            texture: 'img/blackhole.png',
             anchor: {
                 x: 0.5,
                 y: 0.5
             }
-        });*/
-
+        });
+        this.blackHole.view.width = 150;
+        this.blackHole.view.height = 150;
+        console.log("sss: ");
+        console.log(this.blackHole.view.width);
+        
         //add the blackHole to the newtonian gravity behavior
         boxGravity.push(this.blackHole);
     };
