@@ -37,8 +37,7 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
     sprite.position.x = (stageWidth - sprite.width)/2;
     sprite.position.y = stageHeight + 10;
     sprite.interactive = true;
-    
-    
+
     function onAssetsLoadedHv(){
         bitmapFontTextHv = new PIXI.BitmapText("POONG GAME", {font: "95px Intro", align: "right"});
 

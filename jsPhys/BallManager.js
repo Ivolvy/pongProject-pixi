@@ -20,12 +20,8 @@ var BallManager = function(boxCollision, world, pauseGame) {
     };
     
     BallManager.prototype.testBallOutOfScreen = function(){
-        if(boxCollision.length == 2 && pauseGame != 1){ //pauseGame is recovered with the parameter in new BallManager
+        if(ballsOntheStage == 0 && pauseGame != 1){ //pauseGame is recovered with the parameter in new BallManager
             this.restartGame();
-            //we up the event to the upper class
-            if (that._onRestartGame != null) {
-                that._onRestartGame();
-            }
         }
         
         for(var i=0; i<boxCollision.length;i++){
@@ -35,6 +31,8 @@ var BallManager = function(boxCollision, world, pauseGame) {
                     world.removeBody(boxCollision[i]);
                     boxCollision.splice(i,1); //removes the specified cell
                     console.log("taille tab: "+boxCollision.length);
+                    //update the number of the balls on the stage
+                    ballsOntheStage-=1;
                 }
             }
         }
@@ -43,6 +41,12 @@ var BallManager = function(boxCollision, world, pauseGame) {
     //restart the game - timer + new ball
     BallManager.prototype.restartGame = function(){
        console.log("Ready to restart game");
+
+        //we up the event to the upper class
+        if (that._onRestartGame != null) {
+            that._onRestartGame();
+        }
+        
         that.onPauseGame();
         //launch a new ball
         //launch the animation of the countdown

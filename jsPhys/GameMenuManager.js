@@ -34,7 +34,8 @@ var GameMenuManager = function(){
             //do something when we touch the buttons
             that.goToScreen(buttonType);
         };
-
+        
+        
         //the screen for the different settings
         settings = new SettingsPage(stage, stageHeight/10*3, 'img/menuButton.png');
         settings.init();

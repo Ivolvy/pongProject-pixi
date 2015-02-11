@@ -10,6 +10,7 @@ var Main = function(){
     //used to store racket and the body to collide with (the balls)
     var boxCollision = [];
     var collisionDetection;
+    ballsOntheStage = 0;
 
     pauseGame = 0;
 
@@ -61,6 +62,7 @@ var Main = function(){
                 Physics.behavior('body-impulse-response')
                 //,Physics.behavior('body-collision-detection') // ensure objects bounce when edge collision is detected
                 ,Physics.behavior('sweep-prune')
+                ,Physics.behavior('interactive', { el: renderer.container }).applyTo(players)
                // ,Physics.behavior('newtonian', { strength: 1 }) //used for gravity - 1 is default
             ]);
             
@@ -111,7 +113,28 @@ var Main = function(){
                 bonusManager.testIfBonusActivated();
             };
 
-
+            //add touch event to move the rackets
+            world.on({
+                'interact:poke': function(pos){
+                    if(pos.x < viewWidth/2) {
+                        player1.racket.setPosY(pos.y);
+                    }
+                    else if(pos.x > viewWidth/2){
+                        player2.racket.setPosY(pos.y);
+                    }
+                }
+                ,'interact:move': function(pos){
+                    if(pos.x < viewWidth/2) {
+                        player1.racket.setPosY(pos.y);
+                    }
+                    else if(pos.x > viewWidth/2){
+                        player2.racket.setPosY(pos.y);
+                    }
+                }
+                ,'interact:release': function(){
+                }
+            });
+            
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
                     world.step(time);
@@ -123,6 +146,8 @@ var Main = function(){
                     ballManager._onRestartGame = function() {
                         bonusManager.deleteBonus();
                     };
+
+
             });
             // start the ticker
             Physics.util.ticker.start();

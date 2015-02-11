@@ -53,6 +53,10 @@ var Ball = function(world){
             mass: 1
         });
 
+        //set the spawn direction of the ball
+        this.ball.setDirX(Math.floor((Math.random() * 2) + -1)); //between -1 and 0
+        this.ball.setDirY(Math.floor((Math.random() * 2) + -1)); //between -1 and 0
+        
         balls.push(this.ball);
     };
 
@@ -83,6 +87,8 @@ var Ball = function(world){
 
 
     Ball.prototype.addToStage = function(world){
+        //update the number of the balls on the stage
+        ballsOntheStage+=1;
         // add the ball to the world
         world.add(this.ball);
     };

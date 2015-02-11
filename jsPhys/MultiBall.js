@@ -64,6 +64,7 @@ var MultiBall = function(boxCollision, world, numberOfBalls){
             ball.setPosX(viewWidth / 2);
             ball.setPosY(viewHeight / 2);
 
+            //set the spawn direction of the ball
             ball.setDirX(Math.floor((Math.random() * 2) + -1)); //between -1 and 0
             ball.setDirY(Math.floor((Math.random() * 2) + -1)); //between -1 and 0
 
@@ -97,7 +98,11 @@ var MultiBall = function(boxCollision, world, numberOfBalls){
         return that.launcher;
     };
 
-
+    MultiBall.prototype.removeBonus = function(world){
+        //do nothing for multiball
+        world.remove(that.launcher);
+    };
+    
     MultiBall.prototype.addToStage = function(world){
         // add the launcher to the world
         world.add(that.launcher);

@@ -45,7 +45,7 @@ var BonusManager = function(world, boxCollision, renderer){
     //select a bonus randomly
     BonusManager.prototype.randomBonus = function(){
         console.log("timer passed");
-        var selectedBonus = Math.floor((Math.random() * 1) + 1); //between 1 and 3
+        var selectedBonus = Math.floor((Math.random() * 3) + 1); //between 1 and 3
         console.log("bonus selected: "+selectedBonus);
         
         if(selectedBonus == 1){ //blackHole
@@ -55,7 +55,7 @@ var BonusManager = function(world, boxCollision, renderer){
         else if(selectedBonus == 2){ //multiBall
             that.multiBallBonus();
         }
-        else if(selectedBonus == 3){
+        else if(selectedBonus == 3){ //walls
             that.wallBonus();
         }
     };
@@ -125,6 +125,7 @@ var BonusManager = function(world, boxCollision, renderer){
     BonusManager.prototype.deleteBonus = function(){      
         if(that.bonus) {
             that.bonus.removeBonus(world); // utiliser une fonction dans l'objet lui-même pour le supprimer
+            that.bonus = null;
         }
         if(pauseGame != 1) {
             that.timeBetweenBonus();

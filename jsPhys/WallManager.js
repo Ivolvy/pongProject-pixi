@@ -32,13 +32,21 @@ var WallManager = function(boxCollision, world) {
     };
     
     WallManager.prototype.removeBonus = function(world){
+        var tabLenght = boxCollision.length;
+        
         for(var i = 0; i < boxCollision.length; i++){
             if(boxCollision[i].name == 'wall'){
-                world.remove(boxCollision[i]); //remove the specified wall
+                world.removeBody(boxCollision[i]); //remove the specified wall
+                boxCollision[i] = null;
+            }
+        }
+        //remove all the empty cells
+        for(var i = 0; i <= tabLenght; i++){
+            if(boxCollision[i] == null){
+                boxCollision.splice(i, 1); //removes the specified cell
             }
         }
     };
-    
     
     this.init();
 };

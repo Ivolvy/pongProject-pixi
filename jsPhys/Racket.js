@@ -47,18 +47,18 @@ var Racket  = function(options){
             cof: 0
         });
         this.velocity = 10;
-       
+
         this.initPosition();
     };
 
     Racket.prototype.initPosition = function(){
         if(playerPosition == "left") {
             this.racket.setPosX(30);
-            this.racket.setPosY(racketHeight/2);
+            this.racket.setPosY(stageHeight/2);
         }
         else{
             this.racket.setPosX(stageWidth - racketWidth);
-            this.racket.setPosY(racketHeight/2);
+            this.racket.setPosY(stageHeight/2);
         }
     };
 
@@ -74,17 +74,18 @@ var Racket  = function(options){
                 }
             }
         }
-        else if(this.moveDown == true){
-            if(this.racket.getPosY() + racketHeight/2 < stageHeight) {
-                if(this.racket.getPosY() + racketHeight/2 + this.velocity > stageHeight){
-                    this.racket.setPosY(stageHeight - racketHeight/2);
+        else if(this.moveDown == true) {
+            if (this.racket.getPosY() + racketHeight / 2 < stageHeight) {
+                if (this.racket.getPosY() + racketHeight / 2 + this.velocity > stageHeight) {
+                    this.racket.setPosY(stageHeight - racketHeight / 2);
                 }
                 else {
-                    var temp =  this.racket.getPosY() + this.velocity;
+                    var temp = this.racket.getPosY() + this.velocity;
                     this.racket.setPosY(temp);
                 }
             }
         }
+        
     };
 
     Racket.prototype.startMovingUp = function(){
@@ -100,6 +101,12 @@ var Racket  = function(options){
         this.moveDown = false;
     };
 
+    Racket.prototype.setPosX = function(x){
+        this.racket.setPosX(x);
+    };
+    Racket.prototype.setPosY = function(y){
+        this.racket.setPosY(y);
+    };
     Racket.prototype.getX = function(){
         return this.racket.position.x;
     };
