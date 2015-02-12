@@ -34,6 +34,9 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
     loaderDg.load();
 
     //set the position to the current button
+    sprite.scale.x = stageWidth / 1366; //1366 is the base width for which the game was created
+    sprite.scale.y = sprite.scale.x;
+    
     sprite.position.x = (stageWidth - sprite.width)/2;
     sprite.position.y = stageHeight + 10;
     sprite.interactive = true;
@@ -41,6 +44,9 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
     function onAssetsLoadedHv(){
         bitmapFontTextHv = new PIXI.BitmapText("POONG GAME", {font: "95px Intro", align: "right"});
 
+        bitmapFontTextHv.scale.x = stageWidth / 1366; //1366 is the base width for which the game was created
+        bitmapFontTextHv.scale.y = bitmapFontTextHv.scale.x;
+        
         bitmapFontTextHv.position.x = (stageWidth - bitmapFontTextHv.width)/2;
         bitmapFontTextHv.position.y = - bitmapFontTextHv.height - 10;
         myContainer.addChild(bitmapFontTextHv);
@@ -50,6 +56,9 @@ function GameMenuButton(myContainer, mtext, topStart, buttonType, buttonTexture)
     function onAssetsLoadedDg(){
         bitmapFontTextDv = new PIXI.BitmapText(mtext, {font: "95px handvetica", align: "right"});
 
+        bitmapFontTextDv.scale.x = stageWidth / 1366; //1366 is the base width for which the game was created
+        bitmapFontTextDv.scale.y = bitmapFontTextDv.scale.x;
+        
         bitmapFontTextDv.position.x = (stageWidth - bitmapFontTextDv.width)/2;
         bitmapFontTextDv.position.y = stageHeight + 20;
         myContainer.addChild(bitmapFontTextDv);

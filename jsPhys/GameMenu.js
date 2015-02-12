@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 23/01/2015.
  */
-//this is the page for the menu - link to play/settings and help pages
+//this is the page for the menu - link to play/scores and help pages
 var GameMenu = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
@@ -32,7 +32,7 @@ var GameMenu = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallba
         this._onAssetsLoadedCallback = function () {
             //When the assets are loaded, we add the buttons
             this.addButton("GO ON !", stage, 'goOn');
-            this.addButton("SETTINGS", stage, 'settings');
+            this.addButton("SCORES", stage, 'score');
             this.addButton("HELP", stage, 'help');
         };
         this.loadAssets();
@@ -58,7 +58,7 @@ var GameMenu = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallba
         that._buttons.forEach(function (element, index) {
             newTopStart += element.getHeight();
         });
-        var newMenuButton = new GameMenuButton(myContainer, text, newTopStart, buttonType, buttonTexture, stage);
+        var newMenuButton = new GameMenuButton(myContainer, text, newTopStart, buttonType, buttonTexture);
         newMenuButton.addToStage(stage);
         newMenuButton._onPressCallback = that.buttonPressed.bind(that);
         that._buttons.push(newMenuButton);

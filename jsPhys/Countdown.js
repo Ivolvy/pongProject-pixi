@@ -5,8 +5,11 @@
 var m_cCountdown = false;
 
 var Countdown = function(renderer) {
+    var that = this;
+    
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
+
 
     /*PIXI.DisplayObjectContainer.call(this);
     //following use a spritesheet
@@ -25,14 +28,27 @@ var Countdown = function(renderer) {
     
 
     //define the position of the three images
+    this.three.scale.x = viewWidth / 1366; //1366 is the base width for which the game was created
+    this.three.scale.y = this.three.scale.x;
     this.three.position.x = (viewWidth)/2 ;
     this.three.position.y = (viewHeight)/2 ;
-    
+
+    this.two.scale.x = viewWidth / 1366;
+    this.two.scale.y = this.two.scale.x;
     this.two.position.x = (viewWidth)/2 ;
     this.two.position.y = (viewHeight)/2 ;
 
+    this.one.scale.x = viewWidth / 1366;
+    this.one.scale.y = this.one.scale.x;
     this.one.position.x = (viewWidth)/2 ;
     this.one.position.y = (viewHeight)/2 ;
+    
+    
+    //the based scaled values of the three images
+    var baseScaleThree =  this.three.scale.x;
+    var baseScaleTwo =  this.two.scale.x;
+    var baseScaleOne =  this.one.scale.x;
+
     
     //set the anchor to the center of each images
     this.three.anchor.x = this.three.anchor.y = 0.5;
@@ -53,7 +69,8 @@ var Countdown = function(renderer) {
     this.one.alpha = 0;
 
     m_cCountdown = this;
-    
+
+
     Countdown.prototype.startCountDown = function(onComplete) {
         this.visible = true;
         this.onComplete = onComplete;
@@ -62,9 +79,10 @@ var Countdown = function(renderer) {
         this.two.alpha = 0;
         this.one.alpha = 0;
 
-        this.three.scale.x = this.three.scale.y = 2;
-        this.two.scale.x = this.two.scale.y = 2;
-        this.one.scale.x = this.one.scale.y = 2;
+        this.three.scale.x = this.three.scale.y = baseScaleThree*2;
+        this.two.scale.x = this.two.scale.y = baseScaleTwo*2;
+        this.one.scale.x = this.one.scale.y = baseScaleOne*2;
+        
 
         var that = this;
 
@@ -74,10 +92,11 @@ var Countdown = function(renderer) {
                 m_cCountdown.onThreeShown();
             }
         });
-
+        
+        //TweenLite.to(properties to modify/time/modified property)
         TweenLite.to(this.three.scale, 1 * time2, {
-            x : 1,
-            y : 1,
+            x : baseScaleThree,
+            y : baseScaleThree,
             ease : Elastic.easeOut
         });
     };
@@ -96,8 +115,8 @@ var Countdown = function(renderer) {
         });
 
         TweenLite.to(that.three.scale, 1 * time, {
-            x : 0.5,
-            y : 0.5,
+            x : baseScaleThree/2, //0.5 when full sized
+            y : baseScaleThree/2, //0.5 when full sized
             ease : Cubic.easeOut,
             delay : delay
         });
@@ -111,8 +130,8 @@ var Countdown = function(renderer) {
                 });
 
                 TweenLite.to(that.two.scale, 1 * time, {
-                    x : 0.5,
-                    y : 0.5,
+                    x : baseScaleTwo/2,
+                    y : baseScaleTwo/2,
                     ease : Cubic.easeOut,
                     delay : delay
                 });
@@ -121,8 +140,8 @@ var Countdown = function(renderer) {
                     alpha : 1,
                     onComplete : function(){
                         TweenLite.to(that.one.scale, 1 * time, {
-                            x : 0.5,
-                            y : 0.5,
+                            x : baseScaleOne/2,
+                            y : baseScaleOne/2,
                             ease : Cubic.easeOut,
                             delay : delay
                         });
@@ -145,8 +164,8 @@ var Countdown = function(renderer) {
                 });
 
                 TweenLite.to(that.one.scale, 1 * time2, {
-                    x : 1,
-                    y : 1,
+                    x : baseScaleOne,
+                    y : baseScaleOne,
                     ease : Elastic.easeOut,
                     delay : delay
                 });
@@ -155,8 +174,8 @@ var Countdown = function(renderer) {
         });
 
         TweenLite.to(this.two.scale, 1 * time2, {
-            x : 1,
-            y : 1,
+            x : baseScaleTwo,
+            y : baseScaleTwo,
             ease : Elastic.easeOut,
             delay : delay
         });

@@ -3,6 +3,8 @@
  */
 var Main = function(){
     console.log("Main created");
+    
+    var that = this;
 
     var players = [];
     var viewWidth = window.innerWidth;
@@ -13,6 +15,11 @@ var Main = function(){
     ballsOntheStage = 0;
 
     pauseGame = 0;
+
+
+    //RESCALE - TO DO
+    that.ratio = 1;
+
 
     Main.prototype.init = function(){
         console.log("Main initialize");
@@ -60,10 +67,8 @@ var Main = function(){
 
             world.add([
                 Physics.behavior('body-impulse-response')
-                //,Physics.behavior('body-collision-detection') // ensure objects bounce when edge collision is detected
                 ,Physics.behavior('sweep-prune')
                 ,Physics.behavior('interactive', { el: renderer.container }).applyTo(players)
-               // ,Physics.behavior('newtonian', { strength: 1 }) //used for gravity - 1 is default
             ]);
             
             
@@ -80,21 +85,16 @@ var Main = function(){
                 keyDown: 40
             });
             players.push(player2);
-            
-            
-            //create a ball
-           // var ball = new Ball(world);
-           // ball.addToStage(world); //also added on the blackhole gravity
+
 
             //add bonus to the stage
-            //var bonus = new BonusManager(renderer);
             var bonusManager = new BonusManager(world, boxCollision, renderer);
 
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());
             boxCollision.push(player2.getRacketFromPlayer());
-           // boxCollision.push(ball.getBody());
+            //ensure objects bounce when edge collision is detected
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
            
@@ -116,28 +116,36 @@ var Main = function(){
             //add touch event to move the rackets
             world.on({
                 'interact:poke': function(pos){
-                    if(pos.x < viewWidth/2) {
+                    if(pos.x < viewWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
+                        pos.y < viewHeight - player1.racket.getHeight()/2)) {
                         player1.racket.setPosY(pos.y);
                     }
-                    else if(pos.x > viewWidth/2){
+                    else if(pos.x > viewWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
+                        pos.y < viewHeight - player2.racket.getHeight()/2)) {
                         player2.racket.setPosY(pos.y);
                     }
                 }
                 ,'interact:move': function(pos){
-                    if(pos.x < viewWidth/2) {
+                    if(pos.x < viewWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
+                        pos.y < viewHeight - player1.racket.getHeight()/2)) {
                         player1.racket.setPosY(pos.y);
                     }
-                    else if(pos.x > viewWidth/2){
+                    else if(pos.x > viewWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
+                        pos.y < viewHeight - player2.racket.getHeight()/2)) {
                         player2.racket.setPosY(pos.y);
                     }
                 }
                 ,'interact:release': function(){
                 }
             });
+
+            //RESCALE - TO DO
+            that._rescale();
+            window.addEventListener('resize', that._rescale, false);
             
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
-                    world.step(time);
+                 //   world.step(time);
                     player1.racket.move();
                     player2.racket.move();
 
@@ -146,11 +154,41 @@ var Main = function(){
                     ballManager._onRestartGame = function() {
                         bonusManager.deleteBonus();
                     };
+                
+                    //RESCALE - TO DO
+                    if (!renderer.stage) return;
+                    that._applyRatio(renderer.stage, that.ratio); //scale to screen size
+                    world.step(time);
+                    that._applyRatio(renderer.stage, 1/that.ratio); //restore original scale
 
-
+                that._rescale();
             });
             // start the ticker
             Physics.util.ticker.start();
         });
     };
+
+    //RESCALE - TO DO
+    Main.prototype._rescale = function(){
+        that.ratio = Math.min(window.innerWidth / viewWidth, window.innerHeight / viewHeight);
+        that.width = viewWidth * that.ratio;
+        that.height = viewHeight * that.ratio;
+        renderer.resize(that.width, that.height);
+    };
+    
+    //RESCALE - TO DO
+    Main.prototype._applyRatio = function(displayObj, ratio) {
+        if (ratio == 1) return;
+        var object= displayObj;
+        object.position.x = object.position.x * ratio;
+        object.position.y = object.position.y * ratio;
+        object.scale.x = object.scale.x * ratio;
+        object.scale.y = object.scale.y * ratio;
+        for (var i = 0; i < object.children.length; i++) {
+            that._applyRatio(object.children[i], ratio);
+        }
+    };
+    
+    
+    
 };

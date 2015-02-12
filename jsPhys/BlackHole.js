@@ -5,6 +5,11 @@
 
 var BlackHole = function(renderer){
     console.log("BlackHole created");
+
+    var stageWidth = window.innerWidth;
+    var stageHeight = window.innerHeight;
+
+    
     this.blackHole = null;
     var radius = 25;
 
@@ -51,8 +56,7 @@ var BlackHole = function(renderer){
         });
         this.blackHole.view.width = 150;
         this.blackHole.view.height = 150;
-        console.log("sss: ");
-        console.log(this.blackHole.view.width);
+
         
         //add the blackHole to the newtonian gravity behavior
         boxGravity.push(this.blackHole);
