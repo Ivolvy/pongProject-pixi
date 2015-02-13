@@ -11,13 +11,11 @@ var BallManager = function(boxCollision, world, pauseGame) {
     var i = 5; //the restart game timer counter
 
     var count;
-    var score;
     
     BallManager.prototype.init = function(){
         //the countdown (3,2,1)
         count = new Countdown();
-        //the ScoreManager
-        score = new ScoreManager(world);
+
     };
     
     BallManager.prototype.testBallOutOfScreen = function(){
@@ -40,11 +38,11 @@ var BallManager = function(boxCollision, world, pauseGame) {
     BallManager.prototype.deleteBall = function(index, position){
         //if the player to the left win
         if(position == 'right'){
-            score.setScorePlayer1(1);
+            scoreManager.setScorePlayer1(1);
         }
         //if the player to the right win
         else if(position == 'left'){
-            score.setScorePlayer2(1);
+            scoreManager.setScorePlayer2(1);
         }
         
         world.removeBody(boxCollision[index]);

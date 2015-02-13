@@ -32,7 +32,7 @@ var WallManager = function(boxCollision, world) {
     };
     
     WallManager.prototype.removeBonus = function(world){
-        var tabLenght = boxCollision.length;
+        var tabLength = boxCollision.length;
         
         for(var i = 0; i < boxCollision.length; i++){
             if(boxCollision[i].name == 'wall'){
@@ -41,7 +41,7 @@ var WallManager = function(boxCollision, world) {
             }
         }
         //remove all the empty cells
-        for(var i = 0; i <= tabLenght; i++){
+        for(var i = 0; i <= tabLength; i++){
             if(boxCollision[i] == null){
                 boxCollision.splice(i, 1); //removes the specified cell
             }

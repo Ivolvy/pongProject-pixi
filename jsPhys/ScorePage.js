@@ -5,8 +5,8 @@
 var ScorePage = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallback) {
     var that = this; //keep the context for the callback function
 
-    var stageWidth = window.innerWidth;
-    var stageHeight = window.innerHeight;
+    var viewWidth = window.innerWidth;
+    var viewHeight = window.innerHeight;
 
     this.paused = false;
     this._buttons = [];
@@ -16,12 +16,23 @@ var ScorePage = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallb
 
     var buttonType;
     
-
     var buttonTexture = null;
     var bTexturePath = buttonTexturePath;
     var pressedButton = null;
 
     var myContainer;
+
+    var assetsIntro = ["fonts/Intro/Intro.fnt"];
+    var loaderIntro = new PIXI.AssetLoader(assetsIntro);
+    var bitmapFontPlayer1;
+    var bitmapFontPlayer2;
+
+    loaderIntro.onComplete = onAssetsLoadedIntro;
+    loaderIntro.load();
+    
+    function onAssetsLoadedIntro(){
+        that.displayScores();
+    }
 
     ScorePage.prototype.init = function(){
         //create a container to enabled the visible option in the upper class
@@ -81,4 +92,27 @@ var ScorePage = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallb
     ScorePage.prototype.setVisible = function(visible){
         myContainer.visible = visible;
     };
+    
+
+    ScorePage.prototype.displayScores = function(){
+        var scorePlayer1 = localStorage.getItem("Player1");
+        var scorePlayer2 = localStorage.getItem("Player2");
+
+        //The score for the player on the left
+        bitmapFontPlayer1 = new PIXI.BitmapText("Player 1 : "+scorePlayer1+" points", {font: "80px Intro", align: "right"});
+        bitmapFontPlayer1.scale.x = viewWidth / 1366; //1366 is the base width for which the game was created
+        bitmapFontPlayer1.scale.y = bitmapFontPlayer1.scale.x;
+        bitmapFontPlayer1.position.x = (viewWidth - bitmapFontPlayer1.width)/2;
+        bitmapFontPlayer1.position.y = viewHeight/10*5;
+        myContainer.addChild(bitmapFontPlayer1);
+
+        //The score for the player on the right
+        bitmapFontPlayer2 = new PIXI.BitmapText("Player 2 : "+scorePlayer2+" points", {font: "80px Intro", align: "right"});
+        bitmapFontPlayer2.scale.x = viewWidth / 1366; //1366 is the base width for which the game was created
+        bitmapFontPlayer2.scale.y = bitmapFontPlayer2.scale.x;
+        bitmapFontPlayer2.position.x = (viewWidth - bitmapFontPlayer2.width)/2;
+        bitmapFontPlayer2.position.y = viewHeight/10*6;
+        myContainer.addChild(bitmapFontPlayer2);
+    };
+    
 };

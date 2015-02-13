@@ -16,6 +16,7 @@ var BlackHole = function(renderer){
     //used to store the blackhole and the balls
     var boxGravity = [];
     var newtonianBlackHole;
+    var blackHoleSize = 150;
     
     BlackHole.prototype.init = function(){
         //add a ball body
@@ -25,10 +26,10 @@ var BlackHole = function(renderer){
 
                 //set the pos to the blackHole
                 setPosX: function(x){
-                    this.state.pos.x = x;
+                    this.state.pos.x = x + blackHoleSize/2;
                 },
                 setPosY: function(y){
-                    this.state.pos.y = y;
+                    this.state.pos.y = y + blackHoleSize/2;
                 }
             };
         });
@@ -54,9 +55,9 @@ var BlackHole = function(renderer){
                 y: 0.5
             }
         });
-        this.blackHole.view.width = 150;
-        this.blackHole.view.height = 150;
-
+        this.blackHole.view.width = blackHoleSize;
+        this.blackHole.view.height = blackHoleSize;
+        
         
         //add the blackHole to the newtonian gravity behavior
         boxGravity.push(this.blackHole);

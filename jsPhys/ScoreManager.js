@@ -25,7 +25,7 @@ var ScoreManager = function(){
     };
     
     function onAssetsLoadedIntro(){
-        
+
         //The score for the player on the left
         bitmapFontLeft = new PIXI.BitmapText("0", {font: "120px Intro", align: "right"});
         bitmapFontLeft.scale.x = viewWidth / 1366; //1366 is the base width for which the game was created
@@ -50,6 +50,8 @@ var ScoreManager = function(){
         scorePlayer1+=score;
         bitmapFontLeft.setText(scorePlayer1.toString());
         bitmapFontLeft.position.x = tempPosLeft - bitmapFontLeft.width;
+
+     
     };
     ScoreManager.prototype.setScorePlayer2 = function(score){
         scorePlayer2+=score;
@@ -61,6 +63,12 @@ var ScoreManager = function(){
     };
     ScoreManager.prototype.getScorePlayer2 = function(){
         return scorePlayer2;
+    };
+
+
+    ScoreManager.prototype.saveScoreInLocalStorage = function(){
+        localStorage.setItem("Player1", scorePlayer1);
+        localStorage.setItem("Player2", scorePlayer2);
     };
 
 
