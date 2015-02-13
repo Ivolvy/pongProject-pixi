@@ -4,9 +4,9 @@
     
 var m_cCountdown = false;
 
-var Countdown = function(renderer) {
+var Countdown = function() {
     var that = this;
-    
+
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
 
@@ -25,7 +25,7 @@ var Countdown = function(renderer) {
     this.three = new PIXI.Sprite(this.three1);
     this.two = new PIXI.Sprite(this.two1);
     this.one = new PIXI.Sprite(this.one1);
-    
+
 
     //define the position of the three images
     this.three.scale.x = viewWidth / 1366; //1366 is the base width for which the game was created
@@ -42,14 +42,14 @@ var Countdown = function(renderer) {
     this.one.scale.y = this.one.scale.x;
     this.one.position.x = (viewWidth)/2 ;
     this.one.position.y = (viewHeight)/2 ;
-    
-    
+
+
     //the based scaled values of the three images
     var baseScaleThree =  this.three.scale.x;
     var baseScaleTwo =  this.two.scale.x;
     var baseScaleOne =  this.one.scale.x;
 
-    
+
     //set the anchor to the center of each images
     this.three.anchor.x = this.three.anchor.y = 0.5;
     this.two.anchor.x = this.two.anchor.y = 0.5;
@@ -82,7 +82,7 @@ var Countdown = function(renderer) {
         this.three.scale.x = this.three.scale.y = baseScaleThree*2;
         this.two.scale.x = this.two.scale.y = baseScaleTwo*2;
         this.one.scale.x = this.one.scale.y = baseScaleOne*2;
-        
+
 
         var that = this;
 
@@ -92,7 +92,7 @@ var Countdown = function(renderer) {
                 m_cCountdown.onThreeShown();
             }
         });
-        
+
         //TweenLite.to(properties to modify/time/modified property)
         TweenLite.to(this.three.scale, 1 * time2, {
             x : baseScaleThree,
@@ -155,7 +155,7 @@ var Countdown = function(renderer) {
                                 if (that._onAnimationEnded != null) {
                                     that._onAnimationEnded();
                                 }
-                                
+
                             },
                             delay : delay
                         });

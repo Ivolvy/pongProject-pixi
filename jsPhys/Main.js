@@ -90,6 +90,7 @@ var Main = function(){
             //add bonus to the stage
             var bonusManager = new BonusManager(world, boxCollision, renderer);
 
+            
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());

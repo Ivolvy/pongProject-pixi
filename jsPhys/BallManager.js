@@ -2,7 +2,6 @@
  * Created by Michael on 04/02/2015.
  */
 //used to test balls out of the screen, etc...
-    
 var BallManager = function(boxCollision, world, pauseGame) {
     var that = this;
     
@@ -10,13 +9,15 @@ var BallManager = function(boxCollision, world, pauseGame) {
     var viewHeight = window.innerHeight;
 
     var i = 5; //the restart game timer counter
-    var bitmapFontTextHv; //the text display by Pixi
-    var counterInterval; //the timer that launch the counter
 
     var count;
+    var score;
     
     BallManager.prototype.init = function(){
-         count = new Countdown(renderer);
+        //the countdown (3,2,1)
+        count = new Countdown();
+        //the ScoreManager
+        score = new ScoreManager(world);
     };
     
     BallManager.prototype.testBallOutOfScreen = function(){
@@ -26,16 +27,30 @@ var BallManager = function(boxCollision, world, pauseGame) {
         
         for(var i=0; i<boxCollision.length;i++){
             if(boxCollision[i]) { //if the tab[i] is not empty
-                if (boxCollision[i].state.pos.x < - 50 || boxCollision[i].state.pos.x > viewWidth + 50) {
-                    console.log("ball deleted");
-                    world.removeBody(boxCollision[i]);
-                    boxCollision.splice(i,1); //removes the specified cell
-                    console.log("taille tab: "+boxCollision.length);
-                    //update the number of the balls on the stage
-                    ballsOntheStage-=1;
+                if (boxCollision[i].state.pos.x < - 50){
+                    that.deleteBall(i, 'left');
+                }
+                else if(boxCollision[i].state.pos.x > viewWidth + 50){
+                    that.deleteBall(i, 'right');
                 }
             }
         }
+    };
+    
+    BallManager.prototype.deleteBall = function(index, position){
+        //if the player to the left win
+        if(position == 'right'){
+            score.setScorePlayer1(1);
+        }
+        //if the player to the right win
+        else if(position == 'left'){
+            score.setScorePlayer2(1);
+        }
+        
+        world.removeBody(boxCollision[index]);
+        boxCollision.splice(index,1); //removes the specified cell
+        //update the number of the balls on the stage
+        ballsOntheStage-=1;
     };
     
     //restart the game - timer + new ball

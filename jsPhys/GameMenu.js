@@ -24,7 +24,7 @@ var GameMenu = function(stage, topStart, buttonTexturePath, onAssetsLoadedCallba
     var myContainer;
 
     GameMenu.prototype.init = function(){
-        //create a container to enabled the visible option in the upper class
+        //create a container to enabled the visible option in the upper class (for hide or display buttons)
         myContainer = new PIXI.DisplayObjectContainer();
         stage.addChild(myContainer);
         myContainer.visible = false;
