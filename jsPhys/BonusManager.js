@@ -45,7 +45,7 @@ var BonusManager = function(world, boxCollision, renderer){
     //select a bonus randomly
     BonusManager.prototype.randomBonus = function(){
         console.log("timer passed");
-        var selectedBonus = Math.floor((Math.random() * 1) + 1); //between 1 and 3
+        var selectedBonus = Math.floor((Math.random() * 3) + 1); //between 1 and 3
         console.log("bonus selected: "+selectedBonus);
         
         if(selectedBonus == 1){ //blackHole

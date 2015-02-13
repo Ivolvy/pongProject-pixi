@@ -53,8 +53,8 @@ var Main = function(){
             var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
             var backgroundSprite = new PIXI.Sprite(backgroundTexture);
             renderer.stage.addChild(backgroundSprite);
-            
-            
+
+
             // bounds of the window
             var viewportBounds = Physics.aabb(-500, 0, viewWidth + 500, viewHeight);
 
@@ -70,8 +70,8 @@ var Main = function(){
                 ,Physics.behavior('sweep-prune')
                 ,Physics.behavior('interactive', { el: renderer.container }).applyTo(players)
             ]);
-            
-            
+
+
             //create the players
             var player1 = new Player(world, {
                 playerPosition:  "left",
@@ -90,7 +90,7 @@ var Main = function(){
             //add bonus to the stage
             var bonusManager = new BonusManager(world, boxCollision, renderer);
 
-            
+
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());
@@ -98,7 +98,7 @@ var Main = function(){
             //ensure objects bounce when edge collision is detected
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
-           
+
             //crete the ballManager - used to delete balls out of the screen
             var ballManager = new BallManager(boxCollision, world, pauseGame);
             //ballManager.restartGame();
@@ -143,7 +143,7 @@ var Main = function(){
             //RESCALE - TO DO
             that._rescale();
             window.addEventListener('resize', that._rescale, false);
-            
+
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
                  //   world.step(time);
@@ -155,7 +155,7 @@ var Main = function(){
                     ballManager._onRestartGame = function() {
                         bonusManager.deleteBonus();
                     };
-                
+
                     //RESCALE - TO DO
                     if (!renderer.stage) return;
                     that._applyRatio(renderer.stage, that.ratio); //scale to screen size
@@ -176,7 +176,7 @@ var Main = function(){
         that.height = viewHeight * that.ratio;
         renderer.resize(that.width, that.height);
     };
-    
+
     //RESCALE - TO DO
     Main.prototype._applyRatio = function(displayObj, ratio) {
         if (ratio == 1) return;
@@ -189,7 +189,7 @@ var Main = function(){
             that._applyRatio(object.children[i], ratio);
         }
     };
-    
-    
+
+
     
 };
