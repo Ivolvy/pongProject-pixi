@@ -24,6 +24,7 @@
 <script src="lib/TimelineLite.min.js"></script>
 
 
+<script src="jsPhys/Session.js"></script>
 <script src="jsPhys/Countdown.js"></script>
 <script src="jsPhys/ScoreManager.js"></script>
 
@@ -47,6 +48,7 @@
 
 <script>
 
+var that = this;
 
     var gameMenuManager = new GameMenuManager();
     gameMenuManager.init();
@@ -56,8 +58,11 @@
         document.body.removeChild(oldRenderer);
         var main = new Main();
         main.init();
+        main._onReturnGameScreen = function() {
+            gameMenuManager.init();
+        }
     };
-    
+
 
 </script>
 

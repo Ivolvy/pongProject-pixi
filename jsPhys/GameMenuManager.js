@@ -8,7 +8,7 @@ var GameMenuManager = function(){
     var currentStage;
     var stageWidth = window.innerWidth;
     var stageHeight = window.innerHeight;
-       
+
     var mainMenu;
     var score;
     var renderer;
@@ -19,18 +19,18 @@ var GameMenuManager = function(){
     that.defaultHeight = 0;
     that.width;
     that.height;
-   
-    
+
+
     GameMenuManager.prototype.init = function(){
         console.log("GameMenuManager initialize");
-        
+
         //Create the pixi stage renderer - used to manage screen menu
         stage = new PIXI.Stage(0xFFFFFF);
 
-  
+
         this.defaultWidth = that.width = stageWidth;
         this.defaultHeight = that.height = stageHeight;
-        
+
         renderer = PIXI.autoDetectRenderer(stageWidth, stageHeight);
         renderer.view.className = "rendererView";
         document.body.appendChild(renderer.view);
@@ -39,25 +39,25 @@ var GameMenuManager = function(){
         that._rescale();
         window.addEventListener('resize', that._rescale, false);
 
-  
+
 
         //display the background image
         var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
         var backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
-        
+
         stage.addChild(backgroundSprite);
 
         //the screen for the game menu
         mainMenu = new GameMenu(stage, stageHeight/10*3, 'img/menuButton.png');
         mainMenu.init();
-        
+
         mainMenu._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
             //do something when we touch the buttons
             that.goToScreen(buttonType);
         };
-        
-        
+
+
         //the screen for the different score
         score = new ScorePage(stage, stageHeight/10*3, 'img/menuButton.png');
         score.init();
@@ -71,21 +71,21 @@ var GameMenuManager = function(){
 
         document.body.appendChild(renderer.view);
         requestAnimFrame(animate);
-        
+
         function animate() {
             requestAnimFrame(animate);
             renderer.render(stage);
 
             //RESCALE - TO DO
             if (!stage) return;
-            
+
             that._applyRatio(stage, that.ratio); //scale to screen size
             renderer.render(stage);
             that._applyRatio(stage, 1/that.ratio); //restore original scale
 
         }
     };
-    
+
     //RESCALE - TO DO
     GameMenuManager.prototype._rescale = function(){
 
@@ -108,7 +108,7 @@ var GameMenuManager = function(){
         }
     };
 
-    
+
     GameMenuManager.prototype.goToScreen = function (screen) {
         //display the selected screen and hide the others
         if(screen == "menu") {

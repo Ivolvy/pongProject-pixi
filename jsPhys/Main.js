@@ -15,7 +15,8 @@ var Main = function(){
     ballsOntheStage = 0;
 
     pauseGame = 0;
-
+    
+    var bonusManager;
 
     //RESCALE - TO DO
     that.ratio = 1;
@@ -47,7 +48,9 @@ var Main = function(){
                 // Note: equivalent to just calling world.render() after world.step()
                 world.render();
             });
-
+            //define the canvas view - usefull to remove the view when the game is ended
+            renderer.renderer.view.className = "rendererView";
+            document.body.appendChild(renderer.renderer.view);
 
             //display the background image
             var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
@@ -86,15 +89,23 @@ var Main = function(){
             });
             players.push(player2);
 
-
-            //add bonus to the stage
-            var bonusManager = new BonusManager(world, boxCollision, renderer);
-
+            //the ScoreManager
+            scoreManager = new ScoreManager(world);
             
+            //add bonus to the stage
+            bonusManager = new BonusManager(world, boxCollision, renderer);
+            
+            //launch the counter of the game session, in seconds
+            var session = new Session(20);
+            session._onEndedGame = function() {
+               that.endedGame(world);
+            };
+
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());
             boxCollision.push(player2.getRacketFromPlayer());
+            
             //ensure objects bounce when edge collision is detected
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
@@ -155,7 +166,7 @@ var Main = function(){
                     ballManager._onRestartGame = function() {
                         bonusManager.deleteBonus();
                     };
-                
+
                     //RESCALE - TO DO
                     if (!renderer.stage) return;
                     that._applyRatio(renderer.stage, that.ratio); //scale to screen size
@@ -191,5 +202,38 @@ var Main = function(){
     };
     
     
+    Main.prototype.endedGame = function(world){
+        scoreManager.saveScoreInLocalStorage();
+        //remove the view when the game is ended
+        document.body.removeChild(renderer.renderer.view);
+        
+        that.removeAllBodies(world);
+        
+    };
+    
+    //delete all the bodies in the world
+    Main.prototype.removeAllBodies = function(world){
+        var tabLength = boxCollision.length;
+
+        for(var i = 0; i < boxCollision.length; i++){
+            world.removeBody(boxCollision[i]); //remove the specified wall
+            boxCollision[i] = null;
+        }
+        //remove all the empty cells
+        for(var i = 0; i <= tabLength; i++){
+            if(boxCollision[i] == null){
+                boxCollision.splice(i, 1); //removes the specified cell
+            }
+        }
+        
+        pauseGame = 1;
+        //test if the game is paused
+        bonusManager.testIfBonusActivated();
+
+        //we up the event to the upper class
+        if (that._onReturnGameScreen != null) {
+            that._onReturnGameScreen();
+        }
+    };
     
 };
