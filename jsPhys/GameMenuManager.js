@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 09/01/2015.
  */
-//this is the manager for the differents class page (GameMenu/ScorePage/HelpPage)
+//this is the manager for the different class page (GameMenu/ScorePage/HelpPage)
 var GameMenuManager = function(){
     var that = this;
     var stage;
@@ -42,14 +42,14 @@ var GameMenuManager = function(){
 
 
         //display the background image
-        var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
+        var backgroundTexture = PIXI.Texture.fromImage("img/background.jpg");
         var backgroundSprite = new PIXI.Sprite(backgroundTexture);
 
 
         stage.addChild(backgroundSprite);
 
         //the screen for the game menu
-        mainMenu = new GameMenu(stage, stageHeight/10*3, 'img/menuButton.png');
+        mainMenu = new GameMenu(stage, stageHeight/10*3, 'img/menu/menuButton.png');
         mainMenu.init();
 
         mainMenu._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
@@ -59,7 +59,7 @@ var GameMenuManager = function(){
 
 
         //the screen for the different score
-        score = new ScorePage(stage, stageHeight/10*3, 'img/menuButton.png');
+        score = new ScorePage(stage, stageHeight/10*3, 'img/menu/menuButton.png');
         score.init();
         score._onDriveOutFinishedCallback = function(pressedButton, buttonType) {
             //do something when we touch the buttons

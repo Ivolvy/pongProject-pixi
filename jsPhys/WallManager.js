@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 05/02/2015.
  */
-var WallManager = function(boxCollision, world) {
+var WallManager = function(world) {
     var that = this;
 
     var viewWidth = window.innerWidth;

@@ -3,19 +3,22 @@
  */
 var Main = function(){
     console.log("Main created");
-    
+
     var that = this;
 
     var players = [];
+    //default width and height of the stage
+   // var viewWidth = 1366;
+    //var viewHeight = 768;
     var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
     //used to store racket and the body to collide with (the balls)
-    var boxCollision = [];
+    boxCollision = [];
     var collisionDetection;
     ballsOntheStage = 0;
 
     pauseGame = 0;
-    
+
     var bonusManager;
 
     //RESCALE - TO DO
@@ -28,9 +31,10 @@ var Main = function(){
         Physics(function(world){
             renderer = Physics.renderer('pixi', {
                 el: 'viewport',
+                autoResize: false,
                 width: viewWidth,
                 height: viewHeight,
-                meta: true, // don't display meta data (fps, ipf)
+                //meta: true, // don't display meta data (fps, ipf)
                 styles: {
                     // set colors for the circle bodies
                     'rectangle' : {
@@ -53,11 +57,11 @@ var Main = function(){
             document.body.appendChild(renderer.renderer.view);
 
             //display the background image
-            var backgroundTexture = PIXI.Texture.fromImage("img/back2.jpg");
+            var backgroundTexture = PIXI.Texture.fromImage("img/background.jpg");
             var backgroundSprite = new PIXI.Sprite(backgroundTexture);
             renderer.stage.addChild(backgroundSprite);
-            
-            
+
+
             // bounds of the window
             var viewportBounds = Physics.aabb(-500, 0, viewWidth + 500, viewHeight);
 
@@ -73,8 +77,8 @@ var Main = function(){
                 ,Physics.behavior('sweep-prune')
                 ,Physics.behavior('interactive', { el: renderer.container }).applyTo(players)
             ]);
-            
-            
+
+
             //create the players
             var player1 = new Player(world, {
                 playerPosition:  "left",
@@ -91,27 +95,27 @@ var Main = function(){
 
             //the ScoreManager
             scoreManager = new ScoreManager(world);
-            
+
             //add bonus to the stage
-            bonusManager = new BonusManager(world, boxCollision, renderer);
-            
+            bonusManager = new BonusManager(world);
+
             //launch the counter of the game session, in seconds
-            var session = new Session(180);
+            var session = new Session(90);
             session._onEndedGame = function() {
-               that.endedGame(world);
+                that.endedGame(world);
             };
 
 
             //used to manage collisions of the racket with other bodies
             boxCollision.push(player1.getRacketFromPlayer());
             boxCollision.push(player2.getRacketFromPlayer());
-            
+
             //ensure objects bounce when edge collision is detected
             collisionDetection = Physics.behavior('body-collision-detection').applyTo(boxCollision);
             world.add(collisionDetection);
-           
+
             //crete the ballManager - used to delete balls out of the screen
-            var ballManager = new BallManager(boxCollision, world, pauseGame);
+            var ballManager = new BallManager(world);
             //ballManager.restartGame();
 
             ballManager._onPauseGame = function() {
@@ -128,22 +132,22 @@ var Main = function(){
             //add touch event to move the rackets
             world.on({
                 'interact:poke': function(pos){
-                    if(pos.x < viewWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
-                        pos.y < viewHeight - player1.racket.getHeight()/2)) {
+                    if(pos.x < window.innerWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
+                        pos.y < window.innerHeight - player1.racket.getHeight()/2)) {
                         player1.racket.setPosY(pos.y);
                     }
-                    else if(pos.x > viewWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
-                        pos.y < viewHeight - player2.racket.getHeight()/2)) {
+                    else if(pos.x > window.innerWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
+                        pos.y < window.innerHeight - player2.racket.getHeight()/2)) {
                         player2.racket.setPosY(pos.y);
                     }
                 }
                 ,'interact:move': function(pos){
-                    if(pos.x < viewWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
-                        pos.y < viewHeight - player1.racket.getHeight()/2)) {
+                    if(pos.x < window.innerWidth/2 && (pos.y > player1.racket.getHeight()/2 &&
+                        pos.y < window.innerHeight - player1.racket.getHeight()/2)) {
                         player1.racket.setPosY(pos.y);
                     }
-                    else if(pos.x > viewWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
-                        pos.y < viewHeight - player2.racket.getHeight()/2)) {
+                    else if(pos.x > window.innerWidth/2 && (pos.y > player2.racket.getHeight()/2 &&
+                        pos.y < window.innerHeight - player2.racket.getHeight()/2)) {
                         player2.racket.setPosY(pos.y);
                     }
                 }
@@ -152,28 +156,35 @@ var Main = function(){
             });
 
             //RESCALE - TO DO
-            that._rescale();
-            window.addEventListener('resize', that._rescale, false);
+           //  that._rescale();
+            // window.addEventListener('resize', that._rescale, false);
+            
+            // resize events
+            window.addEventListener('resize', function () {
+                that.resizeGame();
+            }, true);
+            // Resize the game the first time
+            that.resizeGame();
             
             // subscribe to the ticker - so the game is looping
             Physics.util.ticker.on(function( time ){
-                 //   world.step(time);
-                    player1.racket.move();
-                    player2.racket.move();
+                //   world.step(time);
+                player1.racket.move();
+                player2.racket.move();
 
-                    //test if the balls go out of the screen - Create the first ball when the game is initialized
-                    ballManager.testBallOutOfScreen();
-                    ballManager._onRestartGame = function() {
-                        bonusManager.deleteBonus();
-                    };
+                //test if the balls go out of the screen - Create the first ball when the game is initialized
+                ballManager.testBallOutOfScreen();
+                ballManager._onRestartGame = function() {
+                    bonusManager.deleteBonus();
+                };
 
-                    //RESCALE - TO DO
-                    if (!renderer.stage) return;
-                    that._applyRatio(renderer.stage, that.ratio); //scale to screen size
-                    world.step(time);
-                    that._applyRatio(renderer.stage, 1/that.ratio); //restore original scale
+                //RESCALE - TO DO
+               //  if (!renderer.stage) return;
+                // that._applyRatio(renderer.stage, that.ratio); //scale to screen size
+                 world.step(time);
+                // that._applyRatio(renderer.stage, 1/that.ratio); //restore original scale
 
-                that._rescale();
+                  //that._rescale();
             });
             // start the ticker
             Physics.util.ticker.start();
@@ -187,7 +198,7 @@ var Main = function(){
         that.height = viewHeight * that.ratio;
         renderer.resize(that.width, that.height);
     };
-    
+
     //RESCALE - TO DO
     Main.prototype._applyRatio = function(displayObj, ratio) {
         if (ratio == 1) return;
@@ -200,17 +211,17 @@ var Main = function(){
             that._applyRatio(object.children[i], ratio);
         }
     };
-    
-    
+
+
     Main.prototype.endedGame = function(world){
         scoreManager.saveScoreInLocalStorage();
         //remove the view when the game is ended
         document.body.removeChild(renderer.renderer.view);
-        
+
         that.removeAllBodies(world);
-        
+
     };
-    
+
     //delete all the bodies in the world
     Main.prototype.removeAllBodies = function(world){
         var tabLength = boxCollision.length;
@@ -225,7 +236,7 @@ var Main = function(){
                 boxCollision.splice(i, 1); //removes the specified cell
             }
         }
-        
+
         pauseGame = 1;
         //test if the game is paused
         bonusManager.testIfBonusActivated();
@@ -235,5 +246,38 @@ var Main = function(){
             that._onReturnGameScreen();
         }
     };
-    
+
+    Main.prototype.resizeGame = function(){
+        var ratio = Math.min(window.innerWidth / viewWidth, window.innerHeight / viewHeight);
+
+        var el = document.getElementsByTagName('canvas');
+        var canvas = el[0];
+        var canvas = el[0];
+
+        var dec = {
+            x : 0,
+            y : 0
+        };
+        var ratioW = window.innerWidth / viewWidth;
+        var ratioH = window.innerHeight / viewHeight;
+        if ( ratioW < ratioH ) {
+            ratio = ratioW;
+            dec.x = 0;
+            dec.y = ((window.innerHeight / (viewHeight * ratio)) * 100 - 100) / 2;
+        } else {
+            ratio = ratioH;
+            dec.x = ((window.innerWidth / (viewWidth * ratio)) * 100 - 100) / 2;
+            dec.y = 0;
+        }
+        if(window.devicePixelRatio){
+            ratio = ratio / window.devicePixelRatio;
+        }
+
+        canvas.style['transform'] = 'scale(' + ratio + ') translateX(' + dec.x + '%) translateY(' + dec.y + '%)';
+        canvas.style['transform-origin'] = '0px 0px';
+
+        canvas.style['-webkit-transform'] = 'scale(' + ratio + ') translateX(' + dec.x + '%) translateY(' + dec.y + '%)';
+        canvas.style['-webkit-transform-origin'] = '0px 0px';
+    }
+
 };

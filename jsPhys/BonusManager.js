@@ -4,7 +4,7 @@
 
 //The bonus class manages all the bonus (black hole, multiBall, etc...)
 
-var BonusManager = function(world, boxCollision, renderer){
+var BonusManager = function(world){
 
     var that = this;
     that.bonus = null;
@@ -92,7 +92,7 @@ var BonusManager = function(world, boxCollision, renderer){
     //the wall bonus
     BonusManager.prototype.wallBonus = function(){
         //add some walls on the stage
-        that.bonus = new WallManager(boxCollision, world);
+        that.bonus = new WallManager(world);
         
         //delete the bonus after a specified time
         that.timeBeforeDeleteBonus();
@@ -101,7 +101,7 @@ var BonusManager = function(world, boxCollision, renderer){
     
     //the black hole bonus
     BonusManager.prototype.blackHoleBonus = function(){
-        that.bonus = new BlackHole(renderer);
+        that.bonus = new BlackHole();
 
         for(var i = 0; i < boxCollision.length; i++){
             if(boxCollision[i].name == 'ball'){
@@ -126,9 +126,6 @@ var BonusManager = function(world, boxCollision, renderer){
         if(that.bonus) {
             that.bonus.removeBonus(world); // utiliser une fonction dans l'objet lui-même pour le supprimer
             that.bonus = null;
-        }
-        if(pauseGame != 1) {
-            that.timeBetweenBonus();
         }
     };
     

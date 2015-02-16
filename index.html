@@ -4,31 +4,78 @@
     <meta charset="UTF-8">
     <title>PongProject</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
         }
-        .rendererView {
-            position: absolute;
+        canvas {
             display: block;
-            width: 100%;
-            height: 100%;
         }
     </style>
 </head>
 
-<script src="lib/pixi.js"></script>
-<script src="js/Collision.js"></script>
-<script src="js/Ball.js"></script>
-<script src="js/Racket.js"></script>
-<script src="js/Player.js"></script>
-<script src="js/main.js"></script>
+
+<script src="lib/physicsjs-full.js"></script>
+<script src="lib/pixi.dev.js"></script>
+<script src="lib/pixi-renderer.js"></script>
+<script src="lib/EasePack.min.js"></script>
+
+<script src="lib/TweenLite.min.js"></script>
+<script src="lib/TimelineLite.min.js"></script>
+
+<script src="lib/howler.min.js"></script>
+
+<script src="jsPhys/Session.js"></script>
+<script src="jsPhys/Countdown.js"></script>
+<script src="jsPhys/ScoreManager.js"></script>
+
+<script src="jsPhys/ScorePage.js"></script>
+<script src="jsPhys/GameMenuButton.js"></script>
+<script src="jsPhys/GameMenu.js"></script>
+<script src="jsPhys/GameMenuManager.js"></script>
+
+<script src="jsPhys/Wall.js"></script>
+<script src="jsPhys/WallManager.js"></script>
+<script src="jsPhys/BallManager.js"></script>
+<script src="jsPhys/MultiBall.js"></script>
+<script src="jsPhys/BlackHole.js"></script>
+<script src="jsPhys/BonusManager.js"></script>
+<script src="jsPhys/Ball.js"></script>
+<script src="jsPhys/Racket.js"></script>
+<script src="jsPhys/Player.js"></script>
+<script src="jsPhys/Main.js"></script>
 
 <body>
 
 <script>
-    var main = new Main();
-    main.init();
+    //launch sound
+    var sound = new Howl({
+        urls: ['sounds/Universal.mp3'],
+        autoplay: true,
+        loop: true,
+        volume: 0.5,
+        onend: function() {
+            console.log('Finished!');
+        }
+    });
+    sound.play();
+    
+    var that = this;
+
+    var gameMenuManager = new GameMenuManager();
+    gameMenuManager.init();
+    gameMenuManager._onDestructCallback = function() {
+        //do something when the stage is destruct
+        var oldRenderer = gameMenuManager.getRenderer();
+        document.body.removeChild(oldRenderer);
+        var main = new Main();
+        main.init();
+        main._onReturnGameScreen = function() {
+            gameMenuManager.init();
+        }
+    };
+
+
 </script>
 
 

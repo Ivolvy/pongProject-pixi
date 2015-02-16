@@ -2,7 +2,7 @@
  * Created by Michael on 04/02/2015.
  */
 //used to test balls out of the screen, etc...
-var BallManager = function(boxCollision, world, pauseGame) {
+var BallManager = function(world) {
     var that = this;
     
     var viewWidth = window.innerWidth;
@@ -55,12 +55,14 @@ var BallManager = function(boxCollision, world, pauseGame) {
     BallManager.prototype.restartGame = function(){
        console.log("Ready to restart game");
 
+        //pause the game
+        that.onPauseGame();
+        
         //we up the event to the upper class
         if (that._onRestartGame != null) {
             that._onRestartGame();
         }
         
-        that.onPauseGame();
         //launch a new ball
         //launch the animation of the countdown
         count.startCountDown();

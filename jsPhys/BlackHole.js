@@ -3,18 +3,15 @@
  */
 
 
-var BlackHole = function(renderer){
+var BlackHole = function(){
     console.log("BlackHole created");
-
-    var stageWidth = window.innerWidth;
-    var stageHeight = window.innerHeight;
-
     
+    var that = this;
     this.blackHole = null;
     var radius = 25;
 
     //used to store the blackhole and the balls
-    var boxGravity = [];
+    boxGravity = [];
     var newtonianBlackHole;
     var blackHoleSize = 150;
     
@@ -35,7 +32,7 @@ var BlackHole = function(renderer){
         });
     
         //add a circle
-        this.blackHole = Physics.body('blackHole', {
+        that.blackHole = Physics.body('blackHole', {
             //x and y defined in BonusManager
             vx: 0, // velocity in x-direction
             vy: 0, // velocity in y-direction
@@ -48,28 +45,28 @@ var BlackHole = function(renderer){
             }
         });
         //used to define an image to the selected body
-        this.blackHole.view = renderer.createDisplay('sprite', {
-            texture: 'img/blackhole.png',
+        that.blackHole.view = renderer.createDisplay('sprite', {
+            texture: 'img/bonus/blackhole.png',
             anchor: {
                 x: 0.5,
                 y: 0.5
             }
         });
-        this.blackHole.view.width = blackHoleSize;
-        this.blackHole.view.height = blackHoleSize;
+        that.blackHole.view.width = blackHoleSize;
+        that.blackHole.view.height = blackHoleSize;
         
         
         //add the blackHole to the newtonian gravity behavior
-        boxGravity.push(this.blackHole);
+        boxGravity.push(that.blackHole);
     };
 
 
     BlackHole.prototype.getHeight = function(){
-        return  this.blackHole.view.height;
+        return  that.blackHole.view.height;
     };
     
     BlackHole.prototype.getBody = function(){
-        return this.blackHole;
+        return that.blackHole;
     };
 
     BlackHole.prototype.addToStage = function(world){
@@ -85,12 +82,12 @@ var BlackHole = function(renderer){
     //add a body to the newtonian gravity
     BlackHole.prototype.addBlackHoleGravityTo = function(body, world){
         boxGravity.push(body);
-        this.addToStage(world); //add the affected object to the stage
+        that.addToStage(world); //add the affected object to the stage
     };
 
 
     BlackHole.prototype.removeBonus = function(world){
-        world.remove(this.blackHole); //remove the blackHole body
+        world.remove(that.blackHole); //remove the blackHole body
         boxGravity = []; //empty the table if we don't want to reassign the newtonian behavior to the previous bodies
         world.removeBehavior(newtonianBlackHole); //remove the newtonian behavior from the world
     };
